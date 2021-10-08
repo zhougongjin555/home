@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.0.2/css/bootstrap.css" rel="stylesheet">
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.0.2/js/bootstrap.js"></script>
+    <style>
+        a {
+            text-decoration: none;
+        }
+
+        .header h1 {
+            color: white;
+        }
+
+        .header a{
+            color: white;
+        }
+        .header {
+            background-color: #369;
+        }
+        .comment_item{
+            margin-left: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <div class="row">
+        <div class="col-11 align-self-center ps-5"><h1 class="display-3">{{ username }}的个人博客</h1></div>
+        <div class="col-1 align-self-center"><a href="/manage/">管理</a></div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-3">
+            {% load my_tags %}
+            {% get_classification_style username %}
+        </div>
+        <div class="col-9">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+</div>
+
+
+
+</body>
+</html>

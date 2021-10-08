@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <!--    title放浏览器最上面窗口显示的东西-->
+    <title>蔡徐坤</title>
+<!--    <link rel="stylesheet" href="../CSS/common.css">-->
+    <style>
+   /*伪类选择器*/
+       a:link{
+           color: red;
+       }
+       a:visited{
+           color: coral;
+       }
+       a:hover{     /*悬浮时候的颜色*/
+           color: blue;
+       }
+       a:active{
+           color: rebeccapurple;
+       }
+
+       #i1:before{
+           color: red;
+           display: block;
+           content: '我是一个伪类块级标签，在前面';
+       }
+
+       #i1:after{
+           color: green;
+           display: inline;
+           content: '我是一个伪类内联标签，在后面';
+       }
+
+    </style>
+</head>
+<body>
+
+    <a href="">hello world</a>
+    <div id="i1">内容</div>
+
+</body>
+</html>
+
+
+

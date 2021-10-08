@@ -1,0 +1,1 @@
+manage.py：操作Django时候用到这个程序，比如创建app 用 python manage.py startapp ' name(名字) '

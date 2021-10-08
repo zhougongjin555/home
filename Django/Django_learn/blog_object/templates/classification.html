@@ -1,0 +1,21 @@
+<div class="alert alert-success" role="alert">
+    <h4 class="alert-heading">我的标签</h4>
+    <hr>
+    {% for tag in tag_ret %}
+        <p><a href="/{{ username }}/tag/{{ tag.0 }}/">{{ tag.0 }} ({{ tag.1 }})</a></p>
+    {% endfor %}
+</div>
+<div class="alert alert-primary" role="alert">
+    <h4 class="alert-heading">我的分类</h4>
+    <hr>
+    {% for category in category_ret %}
+        <p><a href="/{{ username }}/category/{{ category.0 }}/">{{ category.0 }} ({{ category.1 }})</a></p>
+    {% endfor %}
+</div>
+<div class="alert alert-info" role="alert">
+    <h4 class="alert-heading">日期归档</h4>
+    <hr>
+    {% for time in time_ret2 %}
+        <p><a href="/{{ username }}/archive/{{ time.0|date:"Y-m" }}/">{{ time.0|date:"Y-m" }} ({{ time.1 }})</a></p>
+    {% endfor %}
+</div>

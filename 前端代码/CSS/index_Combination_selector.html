@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <!--    title放浏览器最上面窗口显示的东西-->
+    <title>蔡徐坤</title>
+<!--    <link rel="stylesheet" href="../CSS/common.css">-->
+    <style>
+    /*后代选择器     ######## 中间一定要有一个空格*/
+        /*定位'周公瑾'*/
+        .c1 .c2{
+            color:blue;
+        }
+
+        /*定位'诸葛亮'*/
+        .c1{
+            color:yellow;
+        }
+
+        /*定位'关云长'*/
+        .c1 .c2 .c3{
+            color:yellowgreen;
+        }
+
+    /*子代选择器     ######## 中间一定要有一个空格*/
+        /*定位'刘玄德'*/
+        .c1 > .c3{
+            color:red;
+        }
+
+    /*与或选择器*/
+        /*定位'张翼德'*/
+        div.c4{
+            color:darkmagenta;
+        }
+
+        /*定位'张翼德' & '赵子龙'*/
+        div.c4, #i1{
+            font-size: 32px;
+        }
+
+
+    /*兄弟选择器*/
+    .c1 .c2 .c3 + div{
+        background-color:green;
+    }
+
+    .c1 .c2 .g3 ~ div{
+        background-color:red;
+    }
+
+
+
+    </style>
+</head>
+<body>
+    <h1>hello world</h1>
+    <h2>zhou gong jin</h2>
+    <img src="https://img1.baidu.com/it/u=253337507,2981296721&fm=26&fmt=auto&gp=0.jpg">
+
+
+
+    <div class="c1">
+        <div class="c2">周公瑾
+            <div class="c3">关云长</div>
+            <div class="g2">关云长2</div>
+            <div class="g3">关云长3</div>
+            <div class="g4">关云长4</div>
+            <div class="g5">关云长5</div>
+        </div>
+    </div>
+
+    <div class="c1">诸葛亮
+        <div class="c3">刘玄德</div>
+    </div>
+
+
+
+
+    <div class="c4">张翼德</div>
+    <p class="c4">item2</p>
+    <div>item3</div>
+    <p id="i1">赵子龙</p>
+
+
+</body>
+</html>
+
+
+

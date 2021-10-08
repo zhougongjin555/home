@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加书籍</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.0.2/css/bootstrap.css" rel="stylesheet">
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.0.2/js/bootstrap.js"></script>
+
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="http://127.0.0.1:8000/main">图书馆</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="http://127.0.0.1:8000/logout">注销</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Hi, {{ request.user.username|default:'匿名者' }}</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        业务
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="http://127.0.0.1:8000/select_book/">查找书籍</a></li>
+                        <li><a class="dropdown-item" href="http://127.0.0.1:8000/add_book">添加书籍</a></li>
+                        <li><a class="dropdown-item" href="http://127.0.0.1:8000/delete_book/">删除书籍</a></li>
+                        <li><a class="dropdown-item" href="http://127.0.0.1:8000/edit_book">修改书籍</a></li>
+
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="#">敬请期待</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">充值</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="col-4 mx-auto mt-5">
+    <form method="post" action="http://127.0.0.1:8000/confirm_data/">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="bookname" class="form-label">书籍名称</label>
+            <input type="text" class="form-control" id="bookname" required placeholder="金瓶梅">
+            <div class="form-text"></div>
+        </div>
+        <div class="mb-3">
+            <label for="author" class="form-label">作者</label>
+            <input type="text" class="form-control" id="author" required placeholder="周公瑾">
+        </div>
+        <div class="mb-3">
+            <label for="price" class="form-label">价格</label>
+            <div class="input-group">
+                <span class="input-group-text">￥</span>
+                <input type="text" class="form-control" id="price" required aria-label="Amount (to the nearest dollar)">
+                <span class="input-group-text">.00</span>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="publishDate" class="form-label">出版时间</label>
+            <input type="date" class="form-control" id="publishDate" required>
+        </div>
+        <div class="mb-3">
+            <label for="publish" class="form-label">出版社</label>
+            <input type="text" class="form-control" id="publish" required placeholder="eg:杭州出版社">
+        </div>
+        <div class="mb-3">
+            <label for="city" class="form-label">出版社城市</label>
+            <input type="text" class="form-control" id="city" required placeholder="eg:杭州市">
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">出版社邮箱</label>
+            <input type="email" class="form-control" id="email" required>
+        </div>
+        <div class="d-grid mb-3 col-12">
+            <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                保存
+            </button>
+        </div>
+    </form>
+</div>
+
+    <script>
+        $('.btn-outline-success').click(function(){
+            // 因为type为submit，以下ajax不执行
+            $.ajax({
+                url: '/confirm_data/',
+                type: 'post',
+                data: {
+                    'bookname':$('#bookname').val(),
+                    'author':$('#author').val(),
+                    'price':$('#price').val(),
+                    'publishDate':$('#publishDate').val(),
+                    'publish':$('#publish').val(),
+                    'city':$('#city').val(),
+                    'email':$('#email').val()
+                },
+                success: function(data){
+                    $('.form-text').text(data)
+                }
+            })
+        })
+    </script>
+
+</body>
+</html>
+

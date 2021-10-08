@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+{#普通写法，写死url#}
+{#<form action="http://127.0.0.1:8000/login/" method="post">#}
+{#反向解析，自动更新url ,使用全局语法{% url 'name' %}   #}
+<form action="{% url 'log' %} }" method="post">
+    <p>
+        <label for="usn">用户：
+            <input type="text" id="usn" name="usn">
+        </label>
+    </p>
+    <p>
+        <label for="pwd">密码：
+            <input type="password" id="pwd" name="pwd">
+        </label>
+    </p>
+    <p><input type="submit"></p>
+</form>
+
+</body>
+</html>

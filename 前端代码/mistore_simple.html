@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>小米官网</title>
+    <link rel="stylesheet" href="/dist/css/bootstrap.css">
+    <script src="/jQuery/jQuery3.6.js"></script>
+    <script src="/dist/js/bootstrap.js"></script>
+    <style>
+        body{
+            width: 1226px;
+            margin:0 auto;
+            font: 14px/1.5 Helvetica Neue,Helvetica,Arial,Microsoft Yahei,Hiragino Sans GB,Heiti SC,WenQuanYi Micro Hei,sans-serif;
+            /*background-color: black;*/
+        }
+        a{
+            text-decoration: none;
+        }
+        *{
+            margin: 0;
+            padding: 0;
+            text-decoration: none;
+        }
+        li{
+            list-style: none;           /*去除序号*/
+        }
+        .hide{
+            display: none;
+        }
+
+
+        /*顶栏样式*/
+        .navigation{
+            position: relative;
+            right: 350px;
+            width: 2000px;
+            height: 40px;
+            background-color: #3a3939;
+        }
+        .navigation .index{
+            position: relative;
+            left: 350px;
+            width: 1000px;
+        }
+        .navigation .index li{
+            line-height:40px;
+            list-style: none;
+            display: inline-block;
+        }
+        .navigation .index li:before{
+            content: '|';
+            padding: 0 10px 0 0;
+        }
+        .navigation a{
+            padding: 0 10px 0 0;
+            color: #949393;
+            font-size:10px;
+            text-align: center;
+        }
+        .navigation a:hover{
+            font-weight: bolder;
+        }
+        .navigation .relogin{
+            position: absolute;
+            bottom: 0;
+            left: 1350px;
+        }
+        .navigation .shoppingcar{
+            position: absolute;
+            bottom: 0;
+            left: 1495px;
+            width: 80px;
+            height: 40px;
+            text-align: center;
+            background-color: #5d5c5c;
+        }
+        .navigation a{
+
+            line-height: 40px;
+        }
+
+
+        /*导航栏样式*/
+        .header a{
+            color: black;
+            padding:10px;
+            text-decoration:none;
+            line-height: 50px;
+            text-align:center;
+            /*background-color: #339955;*/
+        }
+        .header{
+            position: relative;
+            margin: 15px 0;
+            height: 60px;
+            text-align: center;         /*水平居中*/
+            /*border: 1px solid black;*/
+        }
+        .header li{
+            color: black;
+            display: inline-block;
+        }
+
+
+        /*导航栏的文字样式*/
+        .header ul{
+            width: 780px;
+            height: 40px;
+            font-size: 18px;
+            line-height: 60px;
+            position: absolute;
+            padding: 0 0 0 223px;
+            /*transform: translateY(-50%);*/
+        }
+        .header ul li a:hover{
+            color: orangered;
+            /*background-color:yellow;*/
+        }
+
+
+        /*轮播图片样式*/
+        .lleft:before{
+            content: '<';
+            position: absolute;
+            right:80px;
+        }
+        .rright:before{
+            content: '>';
+            position: absolute;
+            left:50px;
+        }
+        .rright,.lleft{
+            position: absolute;
+            top: 50%;
+            z-index: 5;
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            font-size: 30px;
+        }
+        .carousel-indicators{
+            position: absolute;
+            right: 10px;
+        }
+        .left{
+            position: absolute;
+            left: 250px;
+        }
+        .lunbotu{
+            margin: 0;
+            height: 460px;
+            /*background-color: blue;*/
+            position:relative;
+        }
+        .lunbotu .carousel-example-generic{
+            position: absolute;
+        }
+        .carousel-example-generic img{
+            padding: 0;
+            width: 1226px;
+            height: 460px;
+        }
+        .items ul{
+            position: absolute;
+            top: 0;
+            width: 250px;
+            height: 460px;
+            background-color: rgba(129, 129, 133, 0.5)
+        }
+        .items ul li:hover{
+            background-color: orangered;
+        }
+        .items li a div{
+            padding: 9.5px;
+            color: white;
+            font-size: 18px;
+        }
+        .items li a:-webkit-any-link{
+            text-decoration: none;
+        }
+
+        /*logo样式*/
+        .logo{
+            position: relative;
+            top: 50%;
+            transform:translateY(-50%);
+            width: 50px;
+            height: 50px;
+            background-color:orangered;
+            float: left;
+            border-radius: 15px;    /*设置圆角矩形*/
+        }
+        .logo div{
+            color: white;
+            font-size: 20px;
+            text-align: center;
+            line-height: 50px;
+        }
+
+
+        /*搜索框组件*/
+        form{
+            width: 210px;
+            height: 40px;
+            position: absolute;                 /*块垂直居中*/
+            right: 20px;
+            line-height: 60px;
+        }
+        #submit{
+            position: absolute;
+            top: 10px;
+            border: 1px solid grey;
+            border-left: none;
+            background-color: white;
+            line-height: 40px;
+            width: 40px;
+            height: 40px;
+        }
+        #search{
+            left: 500px;
+            outline-color: orangered;
+            border: 1px solid grey;
+            margin: 0 -3px 0 0;
+            width: 170px;
+            height: 40px;
+            border-right: none;
+        }
+        .new{
+            margin-top: 10px;
+            position: absolute;
+            height: 300px;
+        }
+        .new ul{
+            width: 250px;
+            background-color: #626060;
+        }
+        .new li{
+            padding: 0;
+            height: 85px;
+            width: 83px;
+            border: 1px solid grey;
+            margin: 0;
+            display: inline-block;
+            /*float: left;*/
+        }
+        .new li a{
+            padding: 10px;
+            color: white;
+            margin: 0 auto;          /*水平居中*/
+            line-height: 80px;       /*垂直居中*/
+        }
+        .new li a :hover{
+            font-weight: bolder;
+
+        }
+        .new img{
+            position: relative;
+            top: -180px;
+            left: 250px;
+            height: 170px;
+            width: 316px;
+            margin: 0 0 0 7px;
+            /*float: right;*/
+        }
+    </style>
+
+
+</head>
+<body>
+
+
+
+
+<div class="navigation">
+    <div class="index">
+        <ul>
+            <li><a href=""><span>小米商城</span></a></li>
+            <li><a href=""><span>MIUI</span></a></li>
+            <li><a href=""><span>loT</span></a></li>
+            <li><a href=""><span>云服务</span></a></li>
+            <li><a href=""><span>天星科技</span></a></li>
+            <li><a href=""><span>有品</span></a></li>
+            <li><a href=""><span>小爱开放平台</span></a></li>
+            <li><a href=""><span>企业团购</span></a></li>
+            <li><a href=""><span>资质证照</span></a></li>
+            <li><a href=""><span>协议规则</span></a></li>
+            <li><a href="" id="app_download"><span>下载app</span></a></li>
+            <li><a href=""><span>智能生活</span></a></li>
+            <li><a href=""><span>Select Location</span></a></li>
+        </ul>
+    </div>
+    <div class="relogin">
+        <a href=""><span>登录</span></a>
+        <a href=""><span>注册</span></a>
+        <a href=""><span>消息通知</span></a>
+    </div>
+    <div class="shoppingcar">
+        <a href=""><span>购物车</span></a>
+    </div>
+
+</div>
+
+<div class="header">
+    <div class="logo">
+        <div>Mi</div>
+    </div>
+
+    <form action="">
+        <p>
+            <input type="search" name="keyword" id="search">
+            <input type="button" value="搜索" id="submit">
+        </p>
+    </form>
+
+    <ul>
+        <li><a href="" ><span>小米手机</span></a></li>
+        <li><a href=""><span>Redmi 红米</span></a></li>
+        <li><a href=""><span>电视</span></a></li>
+        <li><a href=""><span>笔记本</span></a></li>
+        <li><a href=""><span>家电</span></a></li>
+        <li><a href=""><span>路由器</span></a></li>
+        <li><a href=""><span>智能硬件</span></a></li>
+        <li><a href=""><span>服务</span></a></li>
+        <li><a href=""><span>社区</span></a></li>
+    </ul>
+
+
+</div>
+
+<div class="lunbotu">
+
+    <!--    轮播图-->
+    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
+            <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+            <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+            <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+        </ol>
+
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner" role="listbox">
+            <div class="item">
+                <a href=""><img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/268aadece1368da98fcf5553b657cdb3.jpg?thumb=1&w=2452&h=920&f=webp&q=90" alt="显示异常"></a>
+            </div>
+            <div class="item">
+                <a href=""><img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/bd166252b080dcab7b5f5382a921171a.jpg?w=2452&h=920" alt="显示异常"></a>
+            </div>
+            <div class="item active">
+                <a href=""><img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/61e41a761e8ff30ecb57147dc25908c5.jpg?thumb=1&w=2452&h=920&f=webp&q=90" alt="显示异常"></a>
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+            <span class="glyphicon lleft" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+            <span class="glyphicon rright" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+
+    <div class="items">
+        <ul>
+            <li><a href=""><div>手机&emsp;&emsp;电话卡&emsp;&emsp;&emsp;&emsp;&emsp;></div></a></li>
+            <li><a href=""><div>电视&emsp;&emsp;盒子&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;></div></a></li>
+            <li><a href=""><div>笔记本&emsp;显示器&emsp;&emsp;&emsp;&emsp;&emsp;></div></a></li>
+            <li><a href=""><div>家电&emsp;&emsp;插线板&emsp;&emsp;&emsp;&emsp;&emsp;></div></a></li>
+            <li><a href=""><div>出行&emsp;&emsp;穿戴&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;></div></a></li>
+            <li><a href=""><div>智能&emsp;&emsp;路由器&emsp;&emsp;&emsp;&emsp;&emsp;></div></a></li>
+            <li><a href=""><div>电源&emsp;&emsp;配件&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;></div></a></li>
+            <li><a href=""><div>健康&emsp;&emsp;儿童&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;></div></a></li>
+            <li><a href=""><div>耳机&emsp;&emsp;音响&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;></div></a></li>
+            <li><a href=""><div>生活&emsp;&emsp;箱包&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;></div></a></li>
+        </ul>
+    </div>
+
+</div>
+
+<div class="new">
+    <ul>
+        <li><a href=""><span>保障服务</span></a></li><!--
+        --><li><a href=""><span>企业团购</span></a></li><!--
+        --><li><a href=""><span>F码通道</span></a></li><!--
+        --><li><a href=""><span>米粉卡</span></a></li><!--
+        --><li><a href=""><span>以旧换新</span></a></li><!--
+        --><li><a href=""><span>话费充值</span></a></li>
+
+    </ul>
+    <a href=""><span><img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/5d4298059889417157e8492750328492.jpg?w=632&h=340" alt="显示错误"></span></a>
+    <a href=""><span><img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/b30177d629bfbe2fb42251c1b8538f7b.jpg?w=632&h=340" alt="显示错误"></span></a>
+    <a href=""><span><img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/9f18ac756fa2cedb16ea429b9c0001af.png?w=632&h=340" alt="显示错误"></span></a>
+</div>
+
+
+
+
+</body>
+</html>

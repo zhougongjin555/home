@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ajax-demo</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.0.2/css/bootstrap.css" rel="stylesheet">
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.0.2/js/bootstrap.js"></script>
+    <style>
+        body {
+            position: relative;
+            left: 25%;
+        }
+    </style>
+</head>
+<body>
+<h1>ajax测试网页</h1>
+
+<div class="d-grid p-5 col-5">
+    <button class="btn btn-success">请求</button>
+</div>
+
+<div class="row">乘法计算测试
+    <div class="col-auto">
+        <input type="text" class="form-control" id="n1"></div>
+    <div class="col-auto">
+        <input type="text" class="form-control" id="n2"></div>
+    <div class="col-auto">
+        <input type="text" class="form-control" id="n3"></div>
+    <div class="col-auto">
+        <button class="btn btn-primary">计算</button>
+    </div>
+</div>
+
+<div class="col-md-6">
+    <form>
+        <label for="usn">用户名</label>
+        <input type="text" class="form-control" id="usn">
+        <label for="pwd">密码</label>
+        <input type="text" class="form-control" id="pwd">
+        <div class="d-grid p-5 col-12">
+            <button class="btn btn-danger" type="button">登录</button>
+        </div>
+    </form>
+</div>
+
+
+<script>
+    $(".btn-success").click(function () {
+        $.ajax({
+            url: '/test_ajax/',          //请求url
+            type: 'get',                //请求方式
+            data: {"a": 1, "b": 2},        //发送数据,数据携带在ajax请求中，get在url的？后面
+            success: function (data) {
+                console.log(data)       //回调函数
+            }
+        })
+    })
+
+
+    $(".btn-primary").click(function () {
+        $.ajax({
+            url: '/cal_ajax/',
+            type: 'post',
+            data: {
+                "n1": $('#n1').val(),
+                "n2": $('#n2').val(),
+            },
+            success: function (data) {
+                $('#n3').val(data)
+            }
+        })
+    })
+
+
+    $('.btn-danger').click(function () {
+        $.ajax({
+            url: '/login_ajax/',
+            type: 'POST',
+            data: {
+                'usn': $('#usn').val(),
+                'pwd': $('#pwd').val(),
+            },
+            success: function (data) {
+
+            }
+        })
+    })
+
+
+</script>
+
+</body>
+</html>

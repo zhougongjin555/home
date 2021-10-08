@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>employers</title>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.css" rel="stylesheet">
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.js"></script>
+
+    <style>
+        td{
+            text-align: center;
+            font-size: 15px;
+        }
+        .form-control{
+            width: 500px;
+        }
+        .lalala{
+            width: 200px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="col-md-offset-5"><h1>员工管理系统</h1></div>
+
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+        添加员工
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="i1">姓名</label>
+                            <input type="text" class="form-control" id="i1" placeholder="name">
+                        </div>
+                        <div class="form-group">
+                            <label for="i2">年龄</label>
+                            <input type="text" class="form-control" id="i2" placeholder="age">
+                        </div>
+
+                        <div>
+                            <label for="department">部门
+                                <select class="form-control" id="department">
+                                    <option value="销售部">销售部</option>
+                                    <option value="运营部">运营部</option>
+                                    <option value="研发部">研发部</option>
+                                    <option value="行政部">行政部</option>
+                                </select>
+                            </label>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-dismiss="modal">提交</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="table-responsive col-md-8 col-md-offset-2">
+        <table class="table table-bordered table-hover table-striped">
+            <thead>
+                <tr>
+                    <td>姓名</td>
+                    <td>年龄</td>
+                    <td>部门</td>
+                    <td>删除</td>
+                    <td>编辑</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="danger">
+                    <td>周公瑾</td>
+                    <td>18</td>
+                    <td>研发部</td>
+                    <td><input class="btn btn-primary" type='button' value='编辑' disabled></td>
+                    <td><input class="btn btn-danger" type='button' value='删除' disabled></td>
+                </tr>
+                <tr>
+                    <td>诸葛亮</td>
+                    <td>55</td>
+                    <td>行政部</td>
+                    <td><input class="btn btn-primary" type='button' value='编辑'></td>
+                    <td><input class="btn btn-danger" type='button' value='删除'></td>
+                </tr>
+                <tr>
+                    <td>关云长</td>
+                    <td>22</td>
+                    <td>运营部</td>
+                    <td><input class="btn btn-primary" type='button' value='编辑'></td>
+                    <td><input class="btn btn-danger" type='button' value='删除'></td>
+                </tr>
+                <tr>
+                    <td>张翼德</td>
+                    <td>33</td>
+                    <td>销售部</td>
+                    <td><input class="btn btn-primary" type='button' value='编辑'></td>
+                    <td><input class="btn btn-danger" type='button' value='删除'></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+
+    <script>
+        var $tbody = $('tbody')
+
+        $(".modal-footer .btn-success").click(function(){
+            var $tr = $('<tr></tr>')
+            var $td1 = $('<td></td>')
+            var $td2 = $('<td></td>')
+            var $td3 = $('<td></td>')
+            var $td4 = $("<td><input class='btn btn-primary' type='button' value='编辑'></td>")
+            var $td5 = $("<td><input class='btn btn-danger' type='button' value='删除'></td>")
+            var arr = [$td1,$td2,$td3]
+
+            var $inputs = $(this).parent().prev().find('.form-control')
+
+            var i =0
+            $inputs.each(function(){
+                arr[i].html($(this).val())
+                arr[i].appendTo($tr)
+                i += 1
+            })
+            $td4.appendTo($tr)
+            $td5.appendTo($tr)
+            $tr.appendTo($tbody)
+        })
+
+
+
+        //委派事件
+        $('tbody').on('click','.btn-danger',function(){
+            var ret = confirm('确认删除？')
+            if(ret){$(this).parent().parent().remove()}   //直接删除标签
+        })
+
+        $('tbody').on('click','.btn-primary',function(){
+            // 1, 变自身
+            $(this).attr({'value':'保存', 'class':'btn btn-info'})
+
+            // 2, 变同行其他标签
+            var $contents = $(this).parent().prevAll('td')
+            $contents.each(function(){
+                var rvalue = $(this).html()
+                $(this).html($('<input>'))
+                $(this).children().attr({'value':rvalue, 'class':'lalala form-control'})
+            })
+        })
+
+        $('tbody').on('click','.btn-info',function(){
+            // 1,改自身
+            $(this).attr({'value':'编辑', 'class':'btn btn-primary'})
+
+            //2，拿兄弟标签的值
+            var $bros = $(this).parent().prevAll('td')
+            console.log($bros)
+            $bros.each(function(){
+                var rvalue_1 = $(this).children().val()
+                console.log(rvalue_1)
+                $(this).html(rvalue_1)
+            })
+            alert('修改成功')
+        })
+        
+    </script>
+
+
+</body>
+</html>

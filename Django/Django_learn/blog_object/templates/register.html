@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>注册页面</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.0.2/css/bootstrap.css" rel="stylesheet">
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.0.2/js/bootstrap.js"></script>
+
+    <style>
+        .row .col-3 {
+            padding: 30px 50px;
+            border: 1px dotted;
+            border-radius: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="row mx-auto">
+    <div class="col-3 mx-auto mt-5">
+        <form action="" method="post" id="form">
+            {% csrf_token %}
+            <h4>用户注册</h4>
+            <hr>
+            {% for item in form %}
+                <label for="{{ item.auto_id }}" class="form-label">{{ item.label }}</label>
+                {{ item }}
+                <span></span>
+            {% endfor %}
+            <label for="head-img" class="form-label">头像
+            <img width="100px" height="100px" class="mt-3" src="/media/avatars/default.png" alt="显示错误"></label>
+            <input type="file" minlength="6" id="head-img" class="form-control" name="pwd" hidden>
+            <br>
+            <div>
+                <button type="button" class="btn btn-success w-100">注册账户</button>
+            </div>
+        </form>
+        <a href="/login/">用户登陆</a>
+    </div>
+</div>
+
+<script>
+
+    // 头像预览
+    $("#head-img").change(function(){
+        // 获取标签文件对象
+        var obj = $(this)[0].files[0]
+        // 获取文件url
+        var reader = new FileReader()
+        reader.readAsDataURL(obj)       // 可能很费时间，所以要等待执行完毕再执行下面的内容
+        // 修改文件的src属性
+        reader.onload = (function(){
+            console.log(111)
+            $('.mt-3').attr("src", reader.result)
+        })
+    })
+
+    $('.btn-success').click(function(){
+        var formdata = new FormData()
+        //formdata.append("usn", $('#id_usn').val())
+        //formdata.append("pwd", $('#id_pwd').val())
+        //formdata.append("pwd1", $('#id_pwd1').val())
+        //formdata.append("email", $('#id_email').val())
+        //formdata.append("csrfmiddlewaretoken", $("[name='csrfmiddlewaretoken']").val())
+
+        // 简便方法
+        var request_data = $('#form').serializeArray()  // 序列化表单的所有数据
+        {#console.log(request_data)#}
+        $.each(request_data, function(index, data){
+            formdata.append(data.name, data.value)
+        })
+
+        formdata.append("headimg", $('#head-img')[0].files[0])  //拿到用户上传的文件对象
+
+        $.ajax({
+            url: '', //上传数据到当前网址
+            type: 'post',
+            contentType: false,
+            processData :false,    // 上传文件一定要有这两个参数传递进去
+            data: formdata,
+            success: function(data){
+                console.log(data, data.clndata)
+                if(data.user){
+                    location.href('/main')
+                }
+                else{
+                    $('span').html('')
+                    $('.form-control').removeClass('is-invalid')
+                    $.each(data.clndata, function(field, data){
+                        var $span = $('#id_'+field)
+                        $span.addClass('is-valid').next().addClass('valid-feedback')
+                    })
+                    $.each(data.msg, function(field, data){
+                        // 处理全局的钩子
+                        if (field == '__all__'){
+                            $('#id_pwd1').addClass('is-invalid').next().html(data[0]).addClass('invalid-feedback').removeClass('valid-feedback')
+                        }
+                        console.log(field, data[0])
+                        var $span = $('#id_'+field)
+                        $span.addClass('is-invalid').next().html(data[0]).addClass('invalid-feedback')
+                    })
+                }
+            }
+        })
+    })
+
+</script>
+
+
+</body>
+</html>

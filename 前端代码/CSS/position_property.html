@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+      .c1{
+        width: 200px;
+        height: 200px;
+        background-color: indianred;
+      }
+
+      .c2{
+        width: 200px;
+        height: 200px;
+        background-color: orange;
+        position: relative;  /*相对定位，不脱离文档流  参照物：元素本身的原始位置*/
+        left: 200px;
+        top: 200px;
+      }
+
+      .c3{
+        width: 200px;
+        height: 200px;
+        position: absolute;  /*绝对定位，按照已经定位的最近的父级元素，最高到body，作为参照物  完全脱离文档流*/
+        left: 200px;
+        top: 200px;
+        background-color: lightblue;
+      }
+    </style>
+
+</head>
+<body>
+
+<div class="header clearfix">
+    <div class="c1"></div>
+
+</div>
+<div class="outer">
+    <div class="c2">
+        <div class="c3"></div>
+    </div>
+
+</div>
+
+
+
+
+</body>
+</html>

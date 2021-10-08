@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        //声明函数
+        // 位置参数
+        function print(a,b){
+            console.log(a,b);
+        }
+        print(1,2)
+        print(1,2,3)
+        print(1)
+
+
+        //不定参数 arguments  相当于pyhton中的（*args）
+        function add(){
+            var ret = 0;
+            for (var i in arguments){
+                ret += arguments[i];
+            }
+            console.log(ret)
+        }
+        add(1,5,7,5,8,5,2)
+
+
+        //匿名函数
+        var func = function(){
+            console.log('这是一个匿名函数')
+        }
+        func();
+
+        (function (x,y){
+            console.log('相加结果为',x+y);
+        })(1,2)
+
+
+
+        var num3 = 10;
+        function func3(){
+            console.log(num3);
+            var num3 = 20;
+        }
+        func3();
+        console.log(num3);
+
+
+    </script>
+</head>
+<body>
+
+</body>
+</html>

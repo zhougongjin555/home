@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+<h3>参数传入测试</h3>
+<h4>深度查询，句点符</h4>
+<hr>
+<p>传字符串{{ name }}</p>
+<p>传整数{{ i }}</p>
+<p>传列表{{ li }}</p>
+<p>穿字典{{ info }}</p>
+<p>传布尔{{ bool }}</p>
+<p>传对象{{ zhuge }}{{ zhouyv }}</p>
+<p>传对象列表{{ persons }}</p>
+<br>
+<h4>过滤器</h4>
+<hr>
+<p>现在时间---原数据：{{ ctime }}---处理后：{{ ctime|date:"Y-m-d" }}</p>
+
+<br>
+<h4>for循环</h4>
+<hr>
+{% for i in li %}
+    <p>{{ i }}</p>
+{% endfor %}
+
+{% for key,value in info.items %}
+    <p>{{ key }}:{{ value }}</p>
+{% endfor %}
+
+<br>
+<h4>自定义过滤器</h4>
+<hr>
+{% load my_tags %}
+<p>{{ i|multi_filter:20 }}</p>
+
+
+<br>
+<h4>自定义标签</h4>
+<hr>
+{% load my_tags %}
+<p>{% multi_tags 7 9 %}</p>
+</body>
+</html>

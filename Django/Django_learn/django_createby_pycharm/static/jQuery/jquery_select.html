@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+<!--    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>-->
+    <script src="jQuery3.6.js"></script>
+</head>
+<body>
+
+
+<button class="select_all">全选</button>
+<button class="cancel">取消</button>
+<button class="reverse">反选</button>
+<table border="1">
+    <tr>
+        <td>选择</td>
+        <td>姓名</td>
+        <td>年龄</td>
+    </tr>
+    <tr>
+        <td><input type="checkbox"></td>
+        <td>张三</td>
+        <td>19</td>
+    </tr>
+    <tr>
+        <td><input type="checkbox"></td>
+        <td>李四</td>
+        <td>99</td>
+    </tr>
+    <tr>
+        <td><input type="checkbox"></td>
+        <td>王五</td>
+        <td>22</td>
+    </tr>
+
+</table>
+
+<script>
+    $('.select_all').click(function(){
+        $('table input:checkbox').prop('checked',true)
+    })
+
+    $('.cancel').click(function () {
+        $('table input:checkbox').prop('checked',false)
+    })
+
+    // $('.reverse').click(function () {
+    //     var $rows = $('table input:checkbox')
+    //     for(var row in $rows){
+    //        if ($($rows[row]).prop('checked')){
+    //            $($rows[row]).prop('checked',false)
+    //        }
+    //        else{
+    //            $($rows[row]).prop('checked',true)
+    //        }
+    //
+    //     }
+    //
+    // })
+
+    // 遍历方法
+    // var arr=[11,22,33]
+    // $.each(arr, function(i){
+    //     console.log(i)
+    // })  //返回索引
+    //
+    // $.each(arr, function(i,j){
+    //     console.log(i,j)
+    // })  //返回索引和值
+
+    $('.reverse').click(function () {
+        $('table input:checkbox').each(function(){
+        //     var v=$(this).prop('checked')
+        //     if (v){
+        //         $(this).prop('checked',false)
+        //     }else{
+        //         $(this).prop('checked',true)
+        //     }
+            $(this).prop('checked',!$(this).prop('checked'))
+        })
+    })
+
+
+</script>
+
+
+</body>
+</html>

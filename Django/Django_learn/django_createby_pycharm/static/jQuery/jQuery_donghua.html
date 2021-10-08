@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .c1{
+            background-color:black;
+            width:200px;
+            height:200px;
+        }
+        .hide{
+            display:none;
+        }
+
+
+
+    </style>
+    <script src="jQuery3.6.js"></script>
+</head>
+<body>
+    <p>
+        <button class="show1">显示</button>
+        <button class="hide1">隐藏</button>
+    </p>
+    <p>
+        <button class="show2">延时显示</button>
+        <button class="hide2">延时隐藏</button>
+    </p>
+    <p>
+        <button class="show3">滑动显示</button>
+        <button class="hide3">滑动隐藏</button>
+    </p>
+    <p>
+        <button class="show4">淡入显示</button>
+        <button class="hide4">淡出隐藏</button>
+    </p>
+    <p>
+        <button class="show5">自定义动画</button>
+    </p>
+
+    <hr>
+    <div class="c1"></div>
+
+
+    <script>
+        $(".show1").click(function(){
+            $('.c1').removeClass('hide')
+        })
+        $(".hide1").click(function(){
+            $('.c1').addClass('hide')
+        })
+
+        // 等待1000ms后再执行操作,后面的函数为回调函数，动画完毕后自动执行
+        $('.show2').click(function(){
+            $('.c1').show(1000,function(){
+                confirm('显示')
+            });
+        })
+        $('.hide2').click(function(){
+            $('.c1').hide(1000,function(){
+                confirm('隐藏')
+            });
+        })
+
+        // 上下卷动显示隐藏
+        $(".show3").click(function(){
+            $('.c1').slideDown()
+        })
+        $(".hide3").click(function(){
+            $('.c1').slideUp()
+        })
+
+        // 淡入淡出
+        $(".show4").click(function(){
+            $('.c1').fadeIn()
+        })
+        $(".hide4").click(function(){
+            $('.c1').fadeOut()
+        })
+
+        // 自定义动画效果
+        $('.show5').click(function(){
+            $('.c1').animate({
+                "border-radius": "50%",
+
+            }, 1000, function(){
+                $('.c1').animate({
+                "border-radius": "0",
+
+            }, 1000)
+        })
+        })
+
+
+    </script>
+
+
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<!--表单标签-->
+<h3>用户登录</h3>
+<form action="http://127.0.0.1:8001" method="post" enctype="application/x-www-form-urlencoded">
+
+<!--    单行文本框-->
+    <p>
+        <label for="user">姓名：</label>
+        <input type="text" name="user" id="user">
+    </p>
+
+    <p>
+        <label for="pwd">密码：</label>
+        <input type="password" name="pwd" id="pwd">
+    </p>
+
+
+
+<!--    复选框-->
+    <p>爱好：
+        篮球<input checked="checked" type="checkbox" name="hobby" value="basketball">
+        足球<input type="checkbox" name="hobby" value="football">
+        双色球<input type="checkbox" name="hobby" value="shuangse">
+    </p>
+
+<!--    单选框-->
+    <p>性别：
+        男<input type="radio" name="gender" value="1">
+        女<input type="radio" name="gender" value="2">
+        其他<input type="radio" name="gender" value="3">
+    </p>
+
+<!--    日期类型-->
+    <p>生日
+        <input type="date" name="birthday">
+    </p>
+
+
+<!--    文件上传-->
+    <p>上传附件
+        <input type="file" name="fujian">
+    </p>
+
+
+<!--   下拉菜单-->
+    <p>
+        籍贯:
+        <select name="province" id="" >
+            <option value="beijing">北京市</option>
+            <option value="shanghai">上海市</option>
+            <option value="hangzhou">杭州市</option>
+            <option value="nanjing">南京市</option>
+
+        </select>
+    </p>
+
+<!--    多行文本框-->
+    <P>
+        <textarea name="info" cols="40" rows="10" placeholder="个人简介"></textarea>
+    </P>
+
+
+
+<!--    按钮标签-->
+
+
+    <p>
+<!--        无任何格式,结合js使用-->
+        <input type="button" value="按钮">
+<!--        向服务器提交表单内选择和输入的所有信息-->
+        <input type="submit" value="提交">
+<!--        清空选择-->
+        <input type="reset" value="重置">
+
+        <button>提交</button>
+
+    </p>
+</form>
+
+
+
+</body>
+</html>

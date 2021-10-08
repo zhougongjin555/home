@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登陆页面</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.0.2/css/bootstrap.css" rel="stylesheet">
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.0.2/js/bootstrap.js"></script>
+
+    <style>
+        .form-text {
+            color: red;
+            position: relative;
+            right: -75%;
+        }
+
+        img {
+            width: 400px;
+            border: 1px solid white;
+            border-radius: 15px;
+        }
+
+        .row {
+            padding-top: 100px;
+        }
+
+        .row .col-3 {
+            padding: 30px 50px;
+            border: 1px dotted;
+            border-radius: 15px;
+        }
+
+        a:hover {
+            color: darkgreen;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="row mx-auto">
+    <div class="col-3 mx-auto">
+        <form action="" method="post">
+            {% csrf_token %}
+            <h4>用户登录</h4>
+            <hr>
+            <label for="usn" class="form-label">用户名</label><input type="text" required minlength="6" id="usn"
+                                                                  class="form-control" name="usn">
+            <div class="form-text">{{ item.errors.0 }}</div>
+            <label for="pwd" class="form-label">密码</label><input type="password" required minlength="6" id="pwd"
+                                                                 class="form-control" name="pwd">
+            <div class="form-text">{{ msg|default:'' }}</div>
+            <label for="vcode" class="form-label">验证码</label>
+            <input type="text" required minlength="4" id="vcode" class="form-control" name="pwd">
+            <div><img src="/valid_code/" alt="显示错误" class="img-fluid img-thumbnail" id="vcode-img"></div>
+            <span class="error"></span>
+            <br>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                登录
+            </button>
+
+        </form>
+        <a href="/register/">新用户注册</a>
+    </div>
+</div>
+
+
+<script>
+    $('#vcode-img').click(function(){
+        $(this)[0].src += '?'
+    })
+
+    $(".btn-primary").click(function(){
+        $.ajax({
+            url: '',
+            type: 'POST',
+            data: {
+                'usn': $('#usn').val(),
+                'pwd': $('#pwd').val(),
+                'vcode': $('#vcode').val(),
+                'csrfmiddlewaretoken': $("[name='csrfmiddlewaretoken']").val(),
+            },
+            success: function(data){
+                console.log(data)
+                if(data.user){
+                    location.href = '/main/'
+                }
+                else{
+                    $('.error').text(data.msg).css({'color':'red', "margin-right": '10px'})
+                    setTimeout(function(){
+                        $('.error').text("")
+                    }, 1000)
+
+                }
+
+
+
+            }
+
+        })
+        $('#vcode-img')[0].src += '?'
+
+
+    })
+
+
+
+
+</script>
+
+</body>
+</html>

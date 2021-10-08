@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        span{
+            width: 100px;
+            height: 100px;
+            background: #339955;
+            display: block;         /*按照块级标签展示元素*/
+        }
+
+        .c1{
+            width: 100px;
+            height: 100px;
+            background: palegreen;
+        }
+
+        .c2{
+            width: 100px;
+            height: 100px;
+            background: purple;
+            display: none;   /*隐藏标签  ,下面的块会顶替上去*/
+            /*visibility: hidden;  !*隐藏标签  ,下面的块不会顶替上去*!*/
+        }
+
+        .c3{
+            width: 100px;
+            height: 100px;
+            background: red;
+            /*display: none;   !*隐藏标签*!*/
+        }
+
+    </style>
+
+</head>
+<body>
+
+    <span>zhougongjin</span>
+    <div></div>
+
+    <hr>
+    <div class="c1"></div>
+    <div class="c2"></div>
+    <div class="c3"></div>
+
+</body>
+</html>

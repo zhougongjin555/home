@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登陆页面</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.0.2/css/bootstrap.css" rel="stylesheet">
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.0.2/js/bootstrap.js"></script>
+
+    <style>
+        .form-text {
+            color: red;
+            position: relative;
+            right: -75%;
+        }
+
+        img {
+            width: 400px;
+            border: 1px solid white;
+            border-radius: 15px;
+        }
+
+        .row {
+            padding-top: 100px;
+        }
+
+        .row .col-3 {
+            padding: 30px 50px;
+            border: 1px dotted;
+            border-radius: 15px;
+        }
+
+        a:hover {
+            color: darkgreen;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="http://127.0.0.1:8000/main">图书馆</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="http://127.0.0.1:8000/login">登录</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="http://127.0.0.1:8000/register">注册</a>
+                </li>
+                <li class="nav-item dropdown" >
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false" disabled>
+                        业务
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="#">查找书籍</a></li>
+                        <li><a class="dropdown-item" href="http://127.0.0.1:8000/add_book">添加书籍</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="#">敬请期待</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">充值</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="row mx-auto">
+    <div class="col-auto me-5 mx-auto my-auto"><img
+            src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimage.biaobaiju.com%2Fuploads%2F20190624%2F13%2F1561354844-WVmoRCDahF.jpeg&refer=http%3A%2F%2Fimage.biaobaiju.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1632453835&t=f68b1c4281c295c82b60faee0a49ce23"
+            alt="垃圾网络"></div>
+    <div class="col-3 ms-5 mx-auto">
+        <form action="" method="post">
+            {% csrf_token %}
+            <h4>用户注册</h4>
+            <hr>
+            {% for item in form %}
+                <label class="form-label">{{ item.label }}</label>
+                {{ item }}
+                {% if item.label == '用户名' %}
+                    <div class="form-text">{{ item.errors.0 }}</div>
+                {% elif item.label == '确认密码' %}
+                    <div class="form-text">{{ error_all.0|default:"" }}</div>
+                {% endif %}
+            {% endfor %}
+            <br>
+            <div>
+                <button type="submit" class="btn btn-success w-100">注册账户</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+</body>
+</html>

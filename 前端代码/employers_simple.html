@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>employers</title>
+    <style>
+        .table{
+            border: 1px solid;
+        }
+        .table td{
+            width: 180px;
+            text-align: center;
+            padding: 5px 60px;
+            border: 1px solid;
+        }
+        .table thead td{
+            font-weight: bold;
+        }
+
+
+
+        fieldset{
+            margin-top: 300px;
+        }
+        /*fieldset :before{*/
+        /*    content:'';*/
+        /*    display: block;*/
+        /*    padding: 100px 0;*/
+        /*}*/
+    </style>
+
+
+
+
+</head>
+<body>
+    <h1>员工管理系统</h1>
+
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <td>姓名</td>
+                <td>年龄</td>
+                <td>部门</td>
+                <td>删除</td>
+                <td>编辑</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>周公瑾</td>
+                <td>18</td>
+                <td>研发部</td>
+                <td><input type='button' value='删除' onclick='delet(this)'></td>
+                <td><input type='button' value='编辑' onclick='edit(this)'></td>
+            </tr>
+        </tbody>
+    </table>
+
+
+
+
+    <fieldset class="add_box">
+        <legend>添加员工</legend>
+        <p>姓名：<input type="text" id="i1"></p>
+        <p>年龄：<input type="text" id="i2"></p>
+        <p>部门：
+            <select name="" id="department">
+                <option value="销售部">销售部</option>
+                <option value="运营部">运营部</option>
+                <option value="研发部">研发部</option>
+                <option value="行政部">行政部</option>
+            </select>
+        </p>
+        <input type="button" value="提交">
+    </fieldset>
+
+
+    <script>
+       function saveda(e) {
+            e.value = '编辑';
+            e.setAttribute('onclick','edit(this)');
+            var values_ele = e.parentElement.parentElement.children;
+            for(var index=0; index<3; index++){
+                values_ele[index].innerHTML = values_ele[index].firstElementChild.value;
+            }
+
+
+            // td1.innerText = values_ele[0].value;
+            // td2.innerText = values_ele[1].value;
+            // td3.innerText = values_ele[2].value;
+        }
+
+        function edit(e){
+            var row1 = e.parentElement.parentElement.children;
+            for(var index=0; index<3; index++) {
+                var row_values = row1[index].innerText;
+                row1[index].innerHTML = "<input type='text'>";
+                var input_ele = row1[index].firstElementChild
+                input_ele.setAttribute('value', row_values);
+            }
+            row1[4].innerHTML = "<input type='button' value='保存' onclick='saveda(this)'>"
+        }
+
+        function delet(e) {
+            var deltr = e.parentElement.parentElement;
+            tbody.removeChild(deltr);
+        }
+
+        function creatlabel(){
+            //创建标签
+            tr = document.createElement('tr');
+            td1 = document.createElement('td');
+            td2 = document.createElement('td');
+            td3 = document.createElement('td');
+            td4 = document.createElement('td');
+            td5 = document.createElement('td');
+        }
+        // creatlabel()
+
+
+       var header = document.querySelector('#header');
+        var tbody = document.querySelector('table tbody');
+        var btn = document.querySelector('fieldset > input');
+        var name1 = document.getElementById('i1');
+        var age = document.getElementById('i2');
+        var dep = document.getElementById('department');
+
+
+        btn.onclick = function(){
+            creatlabel()
+            //给标签赋值
+            td1.innerText = name1.value;
+            td2.innerText = age.value;
+            td3.innerText = dep.value;
+            td4.innerHTML = "<input type='button' value='删除' onclick='delet(this)'>";
+            td5.innerHTML = "<input type='button' value='编辑' onclick='edit(this)'>";
+
+            //标签添加到父标签
+            tr.appendChild(td1);
+            tr.appendChild(td2);
+            tr.appendChild(td3);
+            tr.appendChild(td4);
+            tr.appendChild(td5);
+
+            //重置标签值
+            tbody.appendChild(tr)
+            name1.value="";
+            age.value="";
+        }
+    </script>
+
+
+</body>
+</html>

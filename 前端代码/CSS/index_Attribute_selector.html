@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <!--    title放浏览器最上面窗口显示的东西-->
+    <title>蔡徐坤</title>
+<!--    <link rel="stylesheet" href="../CSS/common.css">-->
+    <style>
+    /*通过内部的属性值去定位*/
+        [type='text']{
+            border: 1px solid red;
+        }
+
+        div[k1='v1']{
+            color: green;
+        }
+
+        a[href$='png']{
+            background-color: green;
+        }
+
+
+
+    </style>
+</head>
+<body>
+
+    <input type="text"><br>
+    <input type="password">
+
+    <div k1="v1">item1</div>
+    <p k1="v1">item2</p>
+
+    <ul>
+        <li><a href="1.png">item1</a></li>
+        <li><a href="2.jpg">item2</a></li>
+        <li><a href="3.jpg">item3</a></li>
+        <li><a href="4.png">item4</a></li>
+        <li><a href="5.gif">item5</a></li>
+    </ul>
+
+</body>
+</html>
+
+
+

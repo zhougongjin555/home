@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>event_text</title>
+
+    <style>
+        .c1{
+            width: 300px;
+            height: 300px;
+            background-color: orange;
+        }
+        .container{
+            width: 300px;
+        }
+
+        .title{
+            height: 50px;
+            background-color: lightgray;
+        }
+
+        .container .list .item1{
+            height: 50px;
+            background-color: gold;
+        }
+        .container .list .item2{
+            height: 50px;
+            background-color: green;
+        }
+        .container .list .item3{
+            height: 50px;
+            background-color: #369;
+        }
+
+        .hide{
+            display: none;
+        }
+
+
+    </style>
+
+    <script>
+        window.onload = function(){
+            var data = {'zhejiang':['杭州','金华','舟山'],'henan':['郑州','南阳','平顶山']}
+
+            var province_value = document.querySelector('#province')
+            var city_value = document.querySelector('#city')
+
+            province_value.onchange = function(){
+                console.log(this.value)
+                var cities = data[this.value];
+
+                //清空里面的标签
+                city_value.options.length = 1;   // 仅保留里面的第一个标签元素
+
+
+                for (var city in cities){
+                    console.log(cities[city])
+                    var option = document.createElement('option');
+                    option.innerHTML = cities[city];
+                    console.log(option)
+                    city_value.appendChild(option);
+                }
+            }
+
+            var title = document.querySelector('.title')
+            var contenter = document.querySelector('.container')
+            var list = document.querySelector('.list')
+
+            title.onmouseover = function(){
+                list.classList.remove('hide');
+            }
+
+            contenter.onmouseleave = function(){
+                list.classList.add('hide');
+            }
+
+
+
+
+
+
+        }
+    </script>
+</head>
+<body>
+
+<select name="province" id="province">
+    <option value="">请选择你的省份</option>
+    <option value="zhejiang">浙江省</option>
+    <option value="henan">河南省</option>
+</select>
+
+<select name="city" id="city">
+    <option value="">请选择你的市</option>
+</select>
+
+<div class="container">
+    <div class="title">标题</div>
+    <div class="list hide">
+        <div class="item1">item1</div>
+        <div class="item2">item2</div>
+        <div class="item3">item3</div>
+    </div>
+</div>
+
+</body>
+</html>

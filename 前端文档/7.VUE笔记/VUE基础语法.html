@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="vue.js"></script>
+
+    <style>
+        .box{
+            width: 200px;
+            height: 200px;
+            background-color: red;
+        }
+        .active{
+            background-color: green;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <h2>{{msg + msg2}}</h2>
+        <h2>{{htmlMsg}}</h2>
+        <h1>{{addmessage()}}</h1>
+
+<!--        v-text & v-html-->
+        <h3 v-text="msg + msg2"></h3>
+        <h3 v-html="htmlMsg"></h3>
+
+
+<!--        v-show(css隐藏) & v-if/v-else(删除块)   -->
+        <div v-show="isShow"> 我展示出来了 </div>
+        <div v-if="isDelete"> 真的出来了</div>
+        <div v-else> 假的出来了 </div>
+
+<!--        v-bind(可以简写成为冒号)-->
+        <a v-bind:href="res.url">{{res.name}}</a>
+        <a :href="res.url">{{res.name}}</a>
+
+<!--        v-on(可以简写成为@)-->
+        <div class="box" v-bind:class={'active':isactive}></div>
+        <button v-on:click="changeMode">切换颜色</button>
+
+<!--        v-for-->
+        <ul>
+            <li v-for="(item, index) in menus" :key="item.id">
+                <div>{{index}}---id: {{item.id}} ,  name: {{item.name}}</div>
+            </li>
+            <li v-for="(value, key) in res" :key="key">
+                <div>{{key}}---{{value}}</div>
+            </li>
+        </ul>
+
+<!--    v-mdoel-->
+        <div>{{msg}}</div>
+        <input type="text" v-model="msg">
+
+    </div>
+
+    <script>
+        // 创建一个vue对象
+        const vu = new Vue({
+            el: "#app",
+            data:{
+                msg: 'hello',
+                msg2: 'world',
+                htmlMsg: '<p>by zhougongjin</p>',
+                isShow: Math.random() > 0.45,
+                isDelete: Math.random() <= 0.45,
+
+                res:{
+                    name: '百度',
+                    url: 'https://www.baidu.com'
+                },
+                menus:[
+                    {id:1,name:'大腰子'},
+                    {id:2,name:'烤鸡翅'},
+                    {id:3,name:'烤韭菜'},
+                    {id:4,name:'烤大蒜'},
+                ],
+                isactive: true
+            },
+            methods:{
+                addmessage(){
+                    return this.msg + this.msg2 + this.htmlMsg
+                },
+                changeMode(){
+                    this.isactive = !this.isactive
+                }
+            }
+        })
+    </script>
+</body>
+</html>

@@ -9,6 +9,7 @@ from api.extension.mixins import DigCreateModelMixin, DigListModelMixin, DigDest
 
 
 class TopicFilterSet(FilterSet):
+    # 自定义条件搜索，并且使用id显示防止刷新的时候出现数据重复
     # ?latest_id=99             ->  id<99
     # ?latest_id=99&limit=10    ->  id<99  limit 10
     latest_id = filters.NumberFilter(field_name='id', lookup_expr='lt')

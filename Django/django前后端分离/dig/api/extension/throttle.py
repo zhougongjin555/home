@@ -19,6 +19,8 @@ class NewsCreateRateThrottle(SimpleRateThrottle):
     THROTTLE_RATES = {"user": "1/5m"}
 
     def parse_rate(self, rate):
+        '''自定义5/5m，扩展每分钟次数和每小时次数'''
+
         if rate is None:
             return (None, None)
         num, period = rate.split('/')  # "1/5m"
@@ -41,6 +43,7 @@ class NewsCreateRateThrottle(SimpleRateThrottle):
         raise ThrottledException(detail)
 
     def throttle_success(self):
+        '''避免出现访问错误，但是仍然增加访问记录导致出现访问受限的情况'''
         # self.history.insert(0, self.now)
         # self.cache.set(self.key, self.history, self.duration)
         return True

@@ -4,6 +4,7 @@ from api import models
 
 
 class RegisterSerializer(serializers.ModelSerializer):
+    # write_only只提交的时候使用，不参与序列化
     confirm_password = serializers.CharField(label="确认密码", min_length=8, write_only=True)
     password = serializers.CharField(label="密码", min_length=8, write_only=True)
 
@@ -24,6 +25,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         return value
 
     def validate_confirm_password(self, value):
+        # self.initial_data从自身内部提取数据
         password = self.initial_data.get('password')
         if password == value:
             return value

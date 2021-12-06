@@ -26,7 +26,7 @@ class NewsView(DigListModelMixin, DigCreateModelMixin, GenericViewSet):
     queryset = models.News.objects.filter(deleted=False).order_by('-id')
     serializer_class = NewsSerializer
 
-    # 自定义的类变量
+    # 自定义的限流类变量
     throttle_objects = [NewsCreateRateThrottle(), ]
 
     def perform_create(self, serializer):
@@ -41,6 +41,7 @@ class NewsView(DigListModelMixin, DigCreateModelMixin, GenericViewSet):
             throttle.done()
 
     def get_throttles(self):
+        '''查看无限制，创建有限制'''
         if self.request.method == "POST":
             return self.throttle_objects
         return []

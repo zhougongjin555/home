@@ -797,316 +797,316 @@ conn.close()
     alter table 表名 drop primary key;
     ```
 
-  ### 3.2 常见列类型
+  ### 
+
+### 3.2 MySQL常见列类型
+
+```sql
+create table 表(
+	id int,
+    name varchar(16)
+)default charset=utf8;
+```
+
+- `int[(m)][unsigned][zerofill]`
+
+  ```
+  int				表示有符号，取值范围：-2147483648 ～ 2147483647
+  int unsigned	表示无符号，取值范围：0 ～ 4294967295
+  int(5)zerofill	仅用于显示，当不满足5位时，按照左边补0，例如：00002；满足时，正常显示。
+  ```
 
   ```sql
-  create table 表(
-  	id int,
-      name varchar(16)
+  mysql> create table L1(id int, uid int unsigned, zid int(5) zerofill) default charset=utf8;
+  Query OK, 0 rows affected (0.03 sec)
+  
+  mysql> insert into L1(id,uid,zid) values(1,2,3);
+  Query OK, 1 row affected (0.00 sec)
+  
+  mysql> insert into L1(id,uid,zid) values(2147483641,4294967294,300000);
+  Query OK, 1 row affected (0.00 sec)
+  
+  mysql> select * from L1;
+  +------------+------------+--------+
+  | id         | uid        | zid    |
+  +------------+------------+--------+
+  |          1 |          2 |  00003 |
+  | 2147483641 | 4294967294 | 300000 |
+  +------------+------------+--------+
+  2 rows in set (0.00 sec)
+  
+  mysql> insert into L1(id,uid,zid) values(214748364100,4294967294,300000);
+  ERROR 1264 (22003): Out of range value for column 'id' at row 1
+  mysql>
+  ```
+
+- `tinyint[(m)] [unsigned] [zerofill]`
+
+  ```
+  有符号，取值范围：-128 ～ 127.
+  无符号，取值范围：0 ～ 255
+  ```
+
+- `bigint[(m)][unsigned][zerofill]`
+
+  ```
+  有符号，取值范围：-9223372036854775808 ～ 9223372036854775807
+  无符号，取值范围：0  ～  18446744073709551615
+  ```
+
+- `decimal[(m[,d])] [unsigned] [zerofill]`
+
+  ```
+  准确的小数值，m是数字总个数（负号不算），d是小数点后个数。 m最大值为65，d最大值为30。
+  
+  例如：
+  create table L2(
+  	id int not null primary key auto_increment,
+  	salary decimal(8,2)
   )default charset=utf8;
   ```
 
-  - `int[(m)][unsigned][zerofill]`
+  ```sql
+  mysql> create table L2(id int not null primary key auto_increment,salary decimal(8,2))default charset=utf8;
+  Query OK, 0 rows affected (0.03 sec)
+  
+  mysql> insert into L2(salary) values(1.28);
+  Query OK, 1 row affected (0.01 sec)
+  
+  mysql> insert into L2(salary) values(5.289);  -- 超出了规定的小数区间范围，那么会默认执行一个四舍五入的操作
+  Query OK, 1 row affected, 1 warning (0.00 sec)
+  
+  mysql> insert into L2(salary) values(5.282);
+  Query OK, 1 row affected, 1 warning (0.00 sec)
+  
+  mysql> insert into L2(salary) values(512132.28);
+  Query OK, 1 row affected (0.00 sec)
+  
+  mysql> insert into L2(salary) values(512132.283);
+  Query OK, 1 row affected, 1 warning (0.00 sec)
+  
+  mysql> select * from L2;
+  +----+-----------+
+  | id | salary    |
+  +----+-----------+
+  |  1 |      1.28 |
+  |  2 |      5.29 |
+  |  3 |      5.28 |
+  |  4 | 512132.28 |
+  |  5 | 512132.28 |
+  +----+-----------+
+  5 rows in set (0.00 sec)
+  
+  mysql> insert into L2(salary) values(5121321.283);
+  ERROR 1264 (22003): Out of range value for column 'salary' at row 1
+  mysql>
+  ```
 
-    ```
-    int				表示有符号，取值范围：-2147483648 ～ 2147483647
-    int unsigned	表示无符号，取值范围：0 ～ 4294967295
-    int(5)zerofill	仅用于显示，当不满足5位时，按照左边补0，例如：00002；满足时，正常显示。
-    ```
+- `FLOAT[(M,D)] [UNSIGNED] [ZEROFILL]`
 
-    ```sql
-    mysql> create table L1(id int, uid int unsigned, zid int(5) zerofill) default charset=utf8;
-    Query OK, 0 rows affected (0.03 sec)
-    
-    mysql> insert into L1(id,uid,zid) values(1,2,3);
-    Query OK, 1 row affected (0.00 sec)
-    
-    mysql> insert into L1(id,uid,zid) values(2147483641,4294967294,300000);
-    Query OK, 1 row affected (0.00 sec)
-    
-    mysql> select * from L1;
-    +------------+------------+--------+
-    | id         | uid        | zid    |
-    +------------+------------+--------+
-    |          1 |          2 |  00003 |
-    | 2147483641 | 4294967294 | 300000 |
-    +------------+------------+--------+
-    2 rows in set (0.00 sec)
-    
-    mysql> insert into L1(id,uid,zid) values(214748364100,4294967294,300000);
-    ERROR 1264 (22003): Out of range value for column 'id' at row 1
-    mysql>
-    ```
+  ```
+  单精度浮点数，非准确小数值，m是数字总个数，d是小数点后个数。
+  ```
 
-  - `tinyint[(m)] [unsigned] [zerofill]`
+- `DOUBLE[(M,D)] [UNSIGNED] [ZEROFILL]`
 
-    ```
-    有符号，取值范围：-128 ～ 127.
-    无符号，取值范围：0 ～ 255
-    ```
+  ```
+  双精度浮点数（非准确小数值），m是数字总个数，d是小数点后个数。
+  ```
 
-  - `bigint[(m)][unsigned][zerofill]`
+- `char(m)`
 
-    ```
-    有符号，取值范围：-9223372036854775808 ～ 9223372036854775807
-    无符号，取值范围：0  ～  18446744073709551615
-    ```
+  ```
+  定长字符串，m代表字符串的长度，最多可容纳255个字符。
+  
+  定长的体现：即使内容长度小于m，也会占用m长度。例如：char(5)，数据是：yes，底层也会占用5个字符；如果超出m长度限制（默认MySQL是严格模式，所以会报错）。
+      如果在配置文件中加入如下配置，
+          sql-mode="NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION"
+      保存并重启，此时MySQL则是非严格模式，此时超过长度则自动截断（不报错）。。
+  
+  注意：默认底层存储是固定的长度（不够则用空格补齐），但是查询数据时，会自动将空白去除。 如果想要保留空白，在sql-mode中加入 PAD_CHAR_TO_FULL_LENGTH 即可。
+  查看模式sql-mode，执行命令：show variables  like 'sql_mode';
+  
+  一般适用于：固定长度的内容。
+  
+  create table L3(
+      id int not null primary key auto_increment,
+      name varchar(5),
+      depart char(3)
+  )default charset=utf8;
+  
+  insert into L3(name,depart) values("alexsb","sbalex");
+  ```
 
-  - `decimal[(m[,d])] [unsigned] [zerofill]`
+- `varchar(m)`
 
-    ```
-    准确的小数值，m是数字总个数（负号不算），d是小数点后个数。 m最大值为65，d最大值为30。
-    
-    例如：
-    create table L2(
-    	id int not null primary key auto_increment,
-    	salary decimal(8,2)
-    )default charset=utf8;
-    ```
+  ```
+  变长字符串，m代表字符串的长度，最多可容纳65535个字节。
+  
+  变长的体现：内容小于m时，会按照真实数据长度存储；如果超出m长度限制（（默认MySQL是严格模式，所以会报错）。
+      如果在配置文件中加入如下配置，
+          sql-mode="NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION"
+      保存并重启，此时MySQL则是非严格模式，此时超过长度则自动截断（不报错）。
+  
+  例如：
+  create table L3(
+      id int not null primary key auto_increment,
+      name varchar(5),
+      depart char(3)
+  )default charset=utf8;
+  ```
 
-    ```sql
-    mysql> create table L2(id int not null primary key auto_increment,salary decimal(8,2))default charset=utf8;
-    Query OK, 0 rows affected (0.03 sec)
-    
-    mysql> insert into L2(salary) values(1.28);
-    Query OK, 1 row affected (0.01 sec)
-    
-    mysql> insert into L2(salary) values(5.289);  -- 超出了规定的小数区间范围，那么会默认执行一个四舍五入的操作
-    Query OK, 1 row affected, 1 warning (0.00 sec)
-    
-    mysql> insert into L2(salary) values(5.282);
-    Query OK, 1 row affected, 1 warning (0.00 sec)
-    
-    mysql> insert into L2(salary) values(512132.28);
-    Query OK, 1 row affected (0.00 sec)
-    
-    mysql> insert into L2(salary) values(512132.283);
-    Query OK, 1 row affected, 1 warning (0.00 sec)
-    
-    mysql> select * from L2;
-    +----+-----------+
-    | id | salary    |
-    +----+-----------+
-    |  1 |      1.28 |
-    |  2 |      5.29 |
-    |  3 |      5.28 |
-    |  4 | 512132.28 |
-    |  5 | 512132.28 |
-    +----+-----------+
-    5 rows in set (0.00 sec)
-    
-    mysql> insert into L2(salary) values(5121321.283);
-    ERROR 1264 (22003): Out of range value for column 'salary' at row 1
-    mysql>
-    ```
+  ```sql
+  mysql> create table L3(id int not null primary key auto_increment,name varchar(5),depart char(3))default charset=utf8;
+  Query OK, 0 rows affected (0.03 sec)
+  
+  -- 插入多行
+  mysql> insert into L3(name,depart) values("wu","WU"),("wupei","ALS");
+  Query OK, 2 rows affected (0.00 sec)
+  Records: 2  Duplicates: 0  Warnings: 0
+  
+  mysql> select * from L3;
+  +----+-------+--------+
+  | id | name  | depart |
+  +----+-------+--------+
+  |  1 | wu    | WU     |
+  |  2 | wupei | ALS    |
+  +----+-------+--------+
+  2 rows in set (0.00 sec)
+  
+  -- 非严格模式下，不会报错。
+  mysql> insert into L3(name,depart) values("wupeiqi","ALS");
+  ERROR 1406 (22001): Data too long for column 'name' at row 1
+  mysql> insert into L3(name,depart) values("wupei","ALSB");
+  ERROR 1406 (22001): Data too long for column 'depart' at row 1
+  mysql>
+  
+  -- 如果 sql-mode 中加入了 PAD_CHAR_TO_FULL_LENGTH ，则查询时char时空白会保留。
+  mysql> select name,length(name),depart,length(depart) from L3;
+  +-------+--------------+--------+----------------+
+  | name  | length(name) | depart | length(depart) |
+  +-------+--------------+--------+----------------+
+  | wu    |            2 | WU     |              3 |
+  | wupei |            5 | ALS    |              3 |
+  +-------+--------------+--------+----------------+
+  4 rows in set (0.00 sec)
+  mysql>
+  ```
 
-  - `FLOAT[(M,D)] [UNSIGNED] [ZEROFILL]`
+- `text`
 
-    ```
-    单精度浮点数，非准确小数值，m是数字总个数，d是小数点后个数。
-    ```
+  ```
+  text数据类型用于保存变长的大字符串，可以组多到65535 (2**16 − 1)个字符。
+  
+  一般情况下，长文本会用text类型。例如：文章、新闻等。
+  ```
 
-  - `DOUBLE[(M,D)] [UNSIGNED] [ZEROFILL]`
+  ```sql
+  create table L4(
+  	id int not null primary key auto_increment,
+      title varchar(128),
+  	content text
+  )default charset=utf8;
+  ```
 
-    ```
-    双精度浮点数（非准确小数值），m是数字总个数，d是小数点后个数。
-    ```
+- `mediumtext`
 
-  - `char(m)`
+  ```
+  A TEXT column with a maximum length of 16,777,215 (2**24 − 1) characters.
+  ```
 
-    ```
-    定长字符串，m代表字符串的长度，最多可容纳255个字符。
-    
-    定长的体现：即使内容长度小于m，也会占用m长度。例如：char(5)，数据是：yes，底层也会占用5个字符；如果超出m长度限制（默认MySQL是严格模式，所以会报错）。
-        如果在配置文件中加入如下配置，
-            sql-mode="NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION"
-        保存并重启，此时MySQL则是非严格模式，此时超过长度则自动截断（不报错）。。
-    
-    注意：默认底层存储是固定的长度（不够则用空格补齐），但是查询数据时，会自动将空白去除。 如果想要保留空白，在sql-mode中加入 PAD_CHAR_TO_FULL_LENGTH 即可。
-    查看模式sql-mode，执行命令：show variables  like 'sql_mode';
-    
-    一般适用于：固定长度的内容。
-    
-    create table L3(
-        id int not null primary key auto_increment,
-        name varchar(5),
-        depart char(3)
-    )default charset=utf8;
-    
-    insert into L3(name,depart) values("alexsb","sbalex");
-    ```
+- `longtext`
 
-  - `varchar(m)`
+  ```
+  A TEXT column with a maximum length of 4,294,967,295 or 4GB (2**32 − 1)
+  ```
 
-    ```
-    变长字符串，m代表字符串的长度，最多可容纳65535个字节。
-    
-    变长的体现：内容小于m时，会按照真实数据长度存储；如果超出m长度限制（（默认MySQL是严格模式，所以会报错）。
-        如果在配置文件中加入如下配置，
-            sql-mode="NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION"
-        保存并重启，此时MySQL则是非严格模式，此时超过长度则自动截断（不报错）。
-    
-    例如：
-    create table L3(
-        id int not null primary key auto_increment,
-        name varchar(5),
-        depart char(3)
-    )default charset=utf8;
-    ```
+  
 
-    ```sql
-    mysql> create table L3(id int not null primary key auto_increment,name varchar(5),depart char(3))default charset=utf8;
-    Query OK, 0 rows affected (0.03 sec)
-    
-    -- 插入多行
-    mysql> insert into L3(name,depart) values("wu","WU"),("wupei","ALS");
-    Query OK, 2 rows affected (0.00 sec)
-    Records: 2  Duplicates: 0  Warnings: 0
-    
-    mysql> select * from L3;
-    +----+-------+--------+
-    | id | name  | depart |
-    +----+-------+--------+
-    |  1 | wu    | WU     |
-    |  2 | wupei | ALS    |
-    +----+-------+--------+
-    2 rows in set (0.00 sec)
-    
-    -- 非严格模式下，不会报错。
-    mysql> insert into L3(name,depart) values("wupeiqi","ALS");
-    ERROR 1406 (22001): Data too long for column 'name' at row 1
-    mysql> insert into L3(name,depart) values("wupei","ALSB");
-    ERROR 1406 (22001): Data too long for column 'depart' at row 1
-    mysql>
-    
-    -- 如果 sql-mode 中加入了 PAD_CHAR_TO_FULL_LENGTH ，则查询时char时空白会保留。
-    mysql> select name,length(name),depart,length(depart) from L3;
-    +-------+--------------+--------+----------------+
-    | name  | length(name) | depart | length(depart) |
-    +-------+--------------+--------+----------------+
-    | wu    |            2 | WU     |              3 |
-    | wupei |            5 | ALS    |              3 |
-    +-------+--------------+--------+----------------+
-    4 rows in set (0.00 sec)
-    mysql>
-    ```
+- `datetime`
 
-  - `text`
+  ```
+  YYYY-MM-DD HH:MM:SS（1000-01-01 00:00:00/9999-12-31 23:59:59）
+  ```
 
-    ```
-    text数据类型用于保存变长的大字符串，可以组多到65535 (2**16 − 1)个字符。
-    
-    一般情况下，长文本会用text类型。例如：文章、新闻等。
-    ```
+- `timestamp`
 
-    ```sql
-    create table L4(
-    	id int not null primary key auto_increment,
-        title varchar(128),
-    	content text
-    )default charset=utf8;
-    ```
+  ```
+  YYYY-MM-DD HH:MM:SS（1970-01-01 00:00:00/2037年）
+  ```
 
-  - `mediumtext`
+  ```
+  对于TIMESTAMP，它把客户端插入的时间从当前时区转化为UTC（世界标准时间）进行存储，查询时，将其又转化为客户端当前时区进行返回。
+  
+  对于DATETIME，不做任何改变，原样输入和输出。
+  ```
 
-    ```
-    A TEXT column with a maximum length of 16,777,215 (2**24 − 1) characters.
-    ```
+  ```sql
+  mysql> create table L5(
+      -> id int not null primary key auto_increment,
+      -> dt datetime,
+      -> tt timestamp
+      -> )default charset=utf8;
+  Query OK, 0 rows affected (0.03 sec)
+  
+  mysql> insert into L5(dt,tt) values("2025-11-11 11:11:44", "2025-11-11 11:11:44");
+  
+  mysql> select * from L5;
+  +----+---------------------+---------------------+
+  | id | dt                  | tt                  |
+  +----+---------------------+---------------------+
+  |  1 | 2025-11-11 11:11:44 | 2025-11-11 11:11:44 |
+  +----+---------------------+---------------------+
+  1 row in set (0.00 sec)
+  
+  mysql> show variables like '%time_zone%';
+  +------------------+--------+
+  | Variable_name    | Value  |
+  +------------------+--------+
+  | system_time_zone | CST    | 
+  | time_zone        | SYSTEM |
+  +------------------+--------+
+  2 rows in set (0.00 sec)
+  -- “CST”指的是MySQL所在主机的系统时间，是中国标准时间的缩写，China Standard Time UT+8:00
+  
+  mysql> set time_zone='+0:00';
+  Query OK, 0 rows affected (0.00 sec)
+  
+  mysql> show variables like '%time_zone%';
+  +------------------+--------+
+  | Variable_name    | Value  |
+  +------------------+--------+
+  | system_time_zone | CST    |
+  | time_zone        | +00:00 |
+  +------------------+--------+
+  2 rows in set (0.01 sec)
+  
+  mysql> select * from L5;
+  +----+---------------------+---------------------+
+  | id | dt                  | tt                  |
+  +----+---------------------+---------------------+
+  |  1 | 2025-11-11 11:11:44 | 2025-11-11 03:11:44 |
+  +----+---------------------+---------------------+
+  1 row in set (0.00 sec)
+  ```
 
-  - `longtext`
+- `date`
 
-    ```
-    A TEXT column with a maximum length of 4,294,967,295 or 4GB (2**32 − 1)
-    ```
+  ```
+  YYYY-MM-DD（1000-01-01/9999-12-31）
+  ```
 
-    
+- `time`
 
-  - `datetime`
+  ```
+  HH:MM:SS（'-838:59:59'/'838:59:59'）
+  ```
 
-    ```
-    YYYY-MM-DD HH:MM:SS（1000-01-01 00:00:00/9999-12-31 23:59:59）
-    ```
-
-  - `timestamp`
-
-    ```
-    YYYY-MM-DD HH:MM:SS（1970-01-01 00:00:00/2037年）
-    ```
-
-    ```
-    对于TIMESTAMP，它把客户端插入的时间从当前时区转化为UTC（世界标准时间）进行存储，查询时，将其又转化为客户端当前时区进行返回。
-    
-    对于DATETIME，不做任何改变，原样输入和输出。
-    ```
-
-    ```sql
-    mysql> create table L5(
-        -> id int not null primary key auto_increment,
-        -> dt datetime,
-        -> tt timestamp
-        -> )default charset=utf8;
-    Query OK, 0 rows affected (0.03 sec)
-    
-    mysql> insert into L5(dt,tt) values("2025-11-11 11:11:44", "2025-11-11 11:11:44");
-    
-    mysql> select * from L5;
-    +----+---------------------+---------------------+
-    | id | dt                  | tt                  |
-    +----+---------------------+---------------------+
-    |  1 | 2025-11-11 11:11:44 | 2025-11-11 11:11:44 |
-    +----+---------------------+---------------------+
-    1 row in set (0.00 sec)
-    
-    mysql> show variables like '%time_zone%';
-    +------------------+--------+
-    | Variable_name    | Value  |
-    +------------------+--------+
-    | system_time_zone | CST    | 
-    | time_zone        | SYSTEM |
-    +------------------+--------+
-    2 rows in set (0.00 sec)
-    -- “CST”指的是MySQL所在主机的系统时间，是中国标准时间的缩写，China Standard Time UT+8:00
-    
-    mysql> set time_zone='+0:00';
-    Query OK, 0 rows affected (0.00 sec)
-    
-    mysql> show variables like '%time_zone%';
-    +------------------+--------+
-    | Variable_name    | Value  |
-    +------------------+--------+
-    | system_time_zone | CST    |
-    | time_zone        | +00:00 |
-    +------------------+--------+
-    2 rows in set (0.01 sec)
-    
-    mysql> select * from L5;
-    +----+---------------------+---------------------+
-    | id | dt                  | tt                  |
-    +----+---------------------+---------------------+
-    |  1 | 2025-11-11 11:11:44 | 2025-11-11 03:11:44 |
-    +----+---------------------+---------------------+
-    1 row in set (0.00 sec)
-    ```
-
-  - `date`
-
-    ```
-    YYYY-MM-DD（1000-01-01/9999-12-31）
-    ```
-
-  - `time`
-
-    ```
-    HH:MM:SS（'-838:59:59'/'838:59:59'）
-    ```
-
-  MySQL还有很多其他的数据类型，例如：*set、enum、TinyBlob、Blob、MediumBlob、LongBlob 等*，详细见官方文档：https://dev.mysql.com/doc/refman/5.7/en/data-types.html
+MySQL还有很多其他的数据类型，例如：*set、enum、TinyBlob、Blob、MediumBlob、LongBlob 等*，详细见官方文档：https://dev.mysql.com/doc/refman/5.7/en/data-types.html
 
 
 
 上述就是关于数据表的一些基本操作。
-
-
 
 ### 3.3 MySQL代码操作
 

@@ -325,6 +325,16 @@ Python中为所有的列表类型的数据提供了一批独有的功能。
    
    print(user_list)
    ```
+   
+   ```python
+   # f去重不改变原顺序
+   
+   num = list(input('').rstrip('0'))
+   num.reverse()
+   print(''.join(sorted(set(num),key=num.index)))
+   ```
+   
+   
 
 ### 1.3 公共功能
 

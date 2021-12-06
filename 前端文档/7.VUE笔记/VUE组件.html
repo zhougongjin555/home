@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>VUE组件.html</title>
+    <script src="vue.js"></script>
+</head>
+<body>
+<!--    使用子组件-->
+    <div id="app">
+        <app></app>
+        <vheader></vheader>
+    </div>
+
+    <script>
+        // 创建全局组件
+        Vue.component('vheader',{
+            template: `
+            <div> 我是一个全局组件</div>
+            `
+        })
+
+        // 创建子组件
+        const app = {
+            data(){
+                return {
+                    msg: '我是一个app组件'
+                }
+            },
+            template: `
+                <div>
+                    <h3>{{msg}}</h3>
+                    <button @click="handleClick">点一下玩一年</button>
+                </div>
+            `,
+            methods: {
+                handleClick(){
+                    this.msg = '装备不花一分钱'
+                },
+            },
+        }
+
+        // 挂载子组件
+        const vu = new Vue({
+            el: '#app',
+            data: {
+
+            },
+            components: {
+                App: app,
+
+            },
+        })
+    </script>
+</body>
+</html>

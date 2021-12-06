@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>音乐播放器</title>
+    <script src="vue.js"></script>
+    <style>
+        .active {
+            background-color: #D2E2F3;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <audio :src="currentSrc" controls autoplay @ended='handleEnded'></audio>
+        <ul>
+            <li  v-bind:class="{active: index===curIndex}" v-for="(music, index) in musicList"
+                 :key="index"
+                 @click="changeMode(index, music.address)">
+                <h4>{{music.title}}</h4>
+                <p>{{music.author}}</p>
+            </li>
+        </ul>
+        <button @click="frontM">上一首</button>
+        <button @click="nextM">下一首</button>
+    </div>
+    <script>
+        const musicList = [{
+            title: 'Russ - Psycho (Pt. 2)',
+            author: 'aa',
+            address: './static/Russ - Psycho (Pt. 2).mp3'
+        },{
+            title: 'MKJ - Time',
+            author: 'bb',
+            address: './static/MKJ - Time.mp3'
+        },{
+            title: 'Joel Adams - Please Dont Go',
+            author: 'cc',
+            address: './static/Joel Adams - Please Dont Go.mp3'
+        }];
+
+        const vu = new Vue({
+            el: '#app',
+            data: {
+                curIndex: 0,
+                musicList: musicList,
+                currentSrc: musicList[0].address,
+            },
+            methods:{
+                changeMode(index, ads){
+                    this.curIndex = index
+                    this.currentSrc = ads
+                },
+                handleEnded(){
+                    this.nextM()
+                },
+                nextM(){
+                    this.curIndex++
+                    if(this.curIndex===3){
+                        this.curIndex = 0
+                    }
+                    this.currentSrc = this.musicList[this.curIndex].address
+                },
+                frontM(){
+                    this.curIndex--
+                    if(this.curIndex===-1){
+                        this.curIndex = 2
+                    }
+                    console.log(this.curIndex)
+                    this.currentSrc = this.musicList[this.curIndex].address
+                },
+            }
+        })
+    </script>
+</body>
+</html>

@@ -24,6 +24,7 @@ from rest_framework.mixins import CreateModelMixin
 class RegisterView(DigCreateModelMixin, GenericViewSet):
     """ 用户注册 """
 
+    # 自定义验证类，权限类，序列化类
     authentication_classes = []
     permission_classes = []
     serializer_class = RegisterSerializer

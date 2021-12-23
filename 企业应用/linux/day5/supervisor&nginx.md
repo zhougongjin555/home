@@ -341,14 +341,16 @@ error_log  logs/error.log;
 # 吧pid写入到 此 nginx.pid文件中，
 pid        logs/nginx.pid;
 
-
 events {
+	# 每个进程最大并发数
     worker_connections  1024;
 }
+
 # 这个http区域，是nginx的核心功能区域
 http {
     include       mime.types;
     default_type  application/octet-stream;
+    
     #打开此nginx的访问日志功能，即可查看日志
     log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
                       '$status $body_bytes_sent "$http_referer" '

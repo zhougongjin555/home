@@ -24,5 +24,3 @@ elif async_result.status == 'RETRY':
 elif async_result.status == 'STARTED':
     print('任务已经开始被执行')
 
-
-

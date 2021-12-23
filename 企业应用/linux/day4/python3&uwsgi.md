@@ -86,7 +86,7 @@ window上安装lol的过程
 linux平台安装软件，也是这个过程，只不过用命令行代替了点点的操作
 ```
 
-### 创建django项目，linux运行django
+## 创建django项目，linux运行django
 
 注意你的python3版本，和django的版本，是否合适！！
 
@@ -491,5 +491,4 @@ uwsgi  --ini  ./uwsgi.ini  #指定配置文件启动后端
 ```
 
 ![image-20200218160555445](pic/image-20200218160555445.png)
-
 

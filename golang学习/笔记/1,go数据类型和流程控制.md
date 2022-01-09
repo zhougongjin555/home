@@ -1,20 +1,10 @@
-# 20211226
+# go基础
 
+## 一、环境搭建
 
-
-## 开课
-
-
-
-上课时间：每周日：9:30~18:30
-
-视频需要转码、审核、上传，需要时间。
-
-### 搭建Go语言开发环境
+### 1，搭建Go语言开发环境
 
 https://www.liwenzhou.com/posts/Go/install_go_dev/
-
-
 
 查看Go版本：
 
@@ -23,9 +13,7 @@ https://www.liwenzhou.com/posts/Go/install_go_dev/
 go version go1.17.5 darwin/amd64
 ```
 
-
-
-配置GoPROXY
+配置GoPROXY（代理环境）
 
 ```bash
 go env -w GOPROXY=https://goproxy.cn,direct
@@ -39,28 +27,32 @@ https://www.liwenzhou.com/posts/Go/00_go_in_vscode/
 
 点右下角 Install All
 
-![image-20211226102030087](20211226.assets/image-20211226102030087.png)
+![image-20211226102030087](assets/image-20211226102030087.png)
 
 
 
-### 创建第一个Go程序
+### 2，创建第一个Go程序
 
-新建项目目录 hello
+- 新建项目目录 hello
 
-进到目录中编写一个main.go文件
+- **进到目录中编写一个test.go文件**
 
+![image-20211226202545585](assets/image-20211226202545585.png)
 
+- 进入到命令行的终端
 
-执行初始化命令：
+  ![image-20211226202727182](assets/image-20211226202727182.png)
+
+- 执行初始化命令：
 
 ```bash
-go mod init hello
+go mod init hello   // hello 是文件夹的名称
 ```
 
-- *hello*是你的项目名
-- 只需要在创建项目的时候在项目的根目录下执行一次！
+- - *hello*是你的项目名
+- - 只需要在创建项目的时候在项目的根目录下执行一次！
 
-一个可执行的go程序。
+- 一个可执行的go程序。
 
 ```go
 package main
@@ -86,11 +78,25 @@ go build
 go build -o xxx
 ```
 
+- 扩展内容
+
+```bash
+# 通过更换环境变量，可以实现编译任何系统环境（windows、linux、mac）的可执行文件
+SET CGO_ENABLED=0
+SET GOOS=darwin     # darwin是mac环境
+SET GOARCH=amd64
+go build
 
 
-### 多个go文件
+# 详情参考
+https://www.liwenzhou.com/posts/Go/install_go_dev/
+```
 
-一个go项目下可以存在多个go文件。
+
+
+### 3，多个go文件
+
+- 一个go项目下可以存在多个go文件
 
 此时，如果使用`go run` 执行，那么就需要把所有的源文件都带上。
 
@@ -100,7 +106,7 @@ go run const.go int.go hello.go
 
 否则就容易出现以下问题：
 
-![image-20211226145133741](20211226.assets/image-20211226145133741.png)
+![image-20211226145133741](assets/image-20211226145133741.png)
 
 ```bash
 ❯ go run hello.go
@@ -110,87 +116,79 @@ go run const.go int.go hello.go
 ./hello.go:64:18: undefined: d4
 ```
 
+- 多个go文件如何编译执行
 
+```bash
+# go mod init ... 会自动的配置文件之间的依赖关系，只需要配置一次即可！！！
+# go build        本质是编译main函数,所以，多个go文件只能存在一个main函数，其他的其他的文件只能定义其他函数名称，放到main函数内部统一执行。
+# 每次代码写完都要保存，然后编译可执行文件，执行
+```
 
-**无论是VsCode还是Goland 推荐大家一个窗口打开一个项目！**
+### 4，关键字和保留字
 
-**无论是VsCode还是Goland 推荐大家一个窗口打开一个项目！**
+系统字符，不能够用作变量
 
-**无论是VsCode还是Goland 推荐大家一个窗口打开一个项目！**
+![image-20211226203955595](assets/image-20211226203955595.png)
 
+### 5，变量
 
-
-
-
-### 变量
+- 三种方式定义变量
 
 ```go
-package main
+// 1
+var a int
+a = 1
 
-import "fmt"
+// 2
+var a int = 1
 
-var version string
-var age11 = 18
+// 3
+a := 1
+```
 
-// name12 := "小王子"  // 函数外语句必须以关键字开头
+- 批量定义
 
-func main() {
-	fmt.Println("Hello world!")
+```go
+// 1
+var (
+    a int8
+    b string
+    c bool
+    d float32
+)
 
-	/*
-		多行注释
-	*/
-	// 变量的声明
-	var name string // 声明变量
+// 2
+var a,b = "name", 2
 
-	// 批量声明
-	var (
-		age  int  // 0
-		isOk bool // false
-	)
-	// var age int
-	// var isOk bool
+```
 
-	age = 100 // 变量赋值
-	fmt.Println(name, age, isOk)
+- 匿名变量
 
-	var age2 int = 18 // 声明变量并赋值
-	fmt.Println(age2)
-
-	// 没有指定类型？
-	var name3, age3 = "jade", 28
-
-	// var (
-	// 	name3 string = "jade"
-	// 	age3 int = 28
-	// )
-
-	fmt.Println(name3, age3)
-
-	var age4 int8 = 28 // 如果不想用编译器推导的类型，就需要显式指定变量的类型
-	fmt.Println(age4)
-
-	// 双引号表示字符串，单引号表示字符
-
-	var x byte = 'a'   // 字符
-	var s string = "a" // 字符串
-	fmt.Println(x, s)
-
-	// 短变量声明
-	s2 := "jade" // var s2 string s2="jade"
-	fmt.Println(s2)
-	s2 = "小王子"
-	fmt.Println(s2)
-
-	// var x2 string
-	// x2 = 18 // 只能给变量赋正确类型的值
-	// fmt.Println(x2)
+```go
+func foo() (int, string) {
+	return 10, "Q1mi"
 }
+func main() {
+	x, _ := foo()
+	_, y := foo()
+	fmt.Println("x=", x)
+	fmt.Println("y=", y)
+}
+
+// 匿名变量不占用命名空间，不会分配内存，所以匿名变量之间不存在重复声明。
+```
+
+- 注意事项
+
+```bash
+函数外的每个语句都必须以关键字开始（var、const、func等）
+:=不能使用在函数外。
+_多用于占位，表示忽略值。
 ```
 
 
 
-### 常量
+### 6，常量
 
 ```go
 // const.go
@@ -212,6 +210,11 @@ const (
 	week3 = 3
 )
 
+
+/*
+iota是go语言的常量计数器，只能在常量的表达式中使用。
+iota在const关键字出现时将被重置为0。const中每新增一行常量声明将使iota计数一次(iota可理解为const语句块中的行索引)。 使用iota能简化定义，在定义枚举时很有用。
+*/
 const (
 	n1 = iota // 0
 	n2        // 1
@@ -248,11 +251,26 @@ const (
 )
 ```
 
-### 基本数据类型
+### 7，其他
 
-#### 整型
+```go
+// var a string = 1     单行注释
 
 
+/*
+多行注释
+*/  
+
+
+a := 'a'   // 单引号:表示字节
+a := "a"   // 双引号:表示字符
+```
+
+
+
+## 二、基本数据类型
+
+#### 1，整型
 
 ```go
 var (
@@ -266,20 +284,36 @@ var (
 v11 := 123
 fmt.Println("自带换行")
 fmt.Printf("十进制：%d \n", v11)
-fmt.Printf("二进制：%b\n", v11)
-fmt.Printf("八进制：%o\n", v11)
-fmt.Printf("十六进制：%x\n", v11)
+fmt.Printf("二进制：%b \n", v11)
+fmt.Printf("八进制：%o \n", v11)
+fmt.Printf("十六进制：%x \n", v11)
 ```
 
+![image-20211226211052286](assets/image-20211226211052286.png)
 
-
-#### 浮点型
-
-**计算机中浮点数都是不精确的！**
+#### 2，浮点型
 
 **计算机中浮点数都是不精确的！**
 
-**计算机中浮点数都是不精确的！**
+```bash
+# 小数转换二进制方法是"乘2取整，顺序排列"
+0.625 * 2 = 1.25  ------ 1
+0.25 * 2 = 0.5 --------- 0
+0.5 * 2 = 1 ------------ 1
+最终： 0.101
+# 看似没啥问题，但是这只是一个特例，对于0.1来说
+
+0.1 * 2 = 0.2 -------0
+0.2 * 2 = 0.4 -------0
+0.4 * 2 = 0.8 -------0
+0.8 * 2 = 1.6 -------1
+0.6 * 2 = 1.2 -------0
+0.2 * 2 = 0.4 -------0
+...
+# 陷入无限循环的境地，为了解决这种问题，引入IEEE二进制浮点数算术标准（IEEE 754），提出了一种使用近似值表示小数的方式，并且引入了精度的概念。一个浮点数a由两个数m和e来表示：a = m × b^e
+
+# 由于计算机中保存的小数其实是十进制的小数的近似值，并不是准确值，所以，千万不要在代码中使用浮点数来表示金额等重要的指标。建议使用BigDecimal或者Long（单位为分）来表示金额
+```
 
 实际写业务遇到浮点数运算都是转成整型来计算的。
 
@@ -289,7 +323,7 @@ func f1() {
 }
 ```
 
-#### 布尔型
+#### 3，布尔型
 
 ```go
 var b11 = true
@@ -302,7 +336,7 @@ var b12 bool // false
 2. Go 语言中不允许将整型强制转换为布尔型.
 3. 布尔型无法参与数值运算，也无法与其他类型进行转换。
 
-#### 字符串
+#### 4，字符串
 
 ```go
 package main
@@ -323,13 +357,21 @@ func f2() {
 	s12 := "\"永远不要高估自己\""
 	fmt.Println(s12)
 
-	// 多行字符串
+	// 多行字符串，不会解释zhuan'yi'zi
 	s13 := `多行
 字符串
 	测\n试
 	`
 	fmt.Println(s13)
+}
 
+```
+
+- 字符串操作
+
+```go
+
+    
 	// 字符串操作
 	fmt.Println(len(s11))
 	// 字符串拼接
@@ -354,29 +396,11 @@ func f2() {
 	// 拼接
 	slice1 := []string{"你", "我", "他"}
 	fmt.Println(strings.Join(slice1, "-"))
-
-	// 字符和字符串
-	y1 := '中' // 字符
-	y2 := "中" // 字符串
-	fmt.Println(y1, y2)
-
-	// byte 和rune
-	fmt.Println([]rune(s14))
-	fmt.Println([]byte(s14))
-	// for range循环
-	idx := 0
-	for _, r := range s14 { // rune表示一个汉字
-		if r == ':' {
-			fmt.Println(idx)
-			break
-		}
-		idx++
-	}
-}
-
 ```
 
-#### 字符
+![image-20211226211129800](assets/image-20211226211129800.png)
+
+#### 5，字符
 
 byte和rune
 
@@ -384,9 +408,26 @@ byte：常见的a、b、c等字符
 
 rune 是用来表示中文、日文等复合字符的
 
+```go
+/*一个汉字字符是3个字节，28位二进制数据，普通bytes打印出来的是一个字节，8位，所以bytes打印出来只是中文28位里面的前8位，不是你想要的。所以引入rune类型，把中文这个字符归为一个打印 */
 
+s := "周：公：瑾"
+fmt.Println(strings.Split(s, "："))
 
-#### 类型转换
+for i := 0; i < len(s); i++ { //byte
+    fmt.Printf("%v(%c) ", s[i], s[i])
+}
+fmt.Println()
+for _, r := range s { //rune
+    fmt.Printf("%v(%c) ", r, r)
+}
+fmt.Println()
+
+```
+
+![image-20211226210750319](assets/image-20211226210750319.png)
+
+#### 6，类型转换
 
 ```go
 package main
@@ -412,9 +453,11 @@ func f3() {
 
 ```
 
-### 运算符
+## 三、运算符
 
-五种运算符
+#### 五种运算符
+
+（详情参考https://www.liwenzhou.com/posts/Go/03_operators/）
 
 1. 算术运算符
 2. 关系运算符
@@ -444,9 +487,19 @@ func f11() {
 
 
 
-### 流程控制语句
+## 四、流程控制语句
 
-#### if
+#### 1，if
+
+```go
+if 表达式1 {
+    分支1
+} else if 表达式2 {
+    分支2
+} else{
+    分支3
+}
+```
 
 ```go
 package main
@@ -467,6 +520,9 @@ func f5() {
 	fmt.Println(score)
 }
 
+
+
+// 特殊写法，变量封存在结构体中，不能够被外部引用
 func f6() {
 	// score只在if分支中有效
 	// 因为它只在if分支中声明了score，外部不可见
@@ -483,7 +539,13 @@ func f6() {
 
 ```
 
-#### for
+#### 2，for
+
+```bash
+for 初始语句;条件表达式;结束语句{
+    循环体语句
+}
+```
 
 ```go
 package main
@@ -525,14 +587,14 @@ func f7() {
 
 	// for range 循环
 	s := "golang"
-	for i, v := range s {
+	for i, v := range s {  // 分别接收索引值和变量值
 		fmt.Printf("%v:%c \n", i, v)
 	}
 }
 
 ```
 
-#### switch
+#### 3，switch
 
 ```go
 package main
@@ -554,7 +616,7 @@ func f8() {
 		fmt.Println("无名指")
 	case 5:
 		fmt.Println("小拇指")
-	default:
+	default:  // 非必须定义，但是一个结构体中最多出现一个
 		fmt.Println("无效的输入")
 	}
 
@@ -580,14 +642,14 @@ func f8() {
 
 
 
-#### goto
+#### 4，goto
 
 ```go
 package main
 
 import "fmt"
 
-// goto 语句
+// 普通跳出两层循环 语句
 
 func gotoDemo1() {
 	var breakFlag bool
@@ -607,16 +669,18 @@ func gotoDemo1() {
 	}
 }
 
+
+// 使用goto跳出任意层循环
 func gotoDemo2() {
 	for i := 0; i < 10; i++ {
 		for j := 0; j < 10; j++ {
 			if j == 2 { // 退出整个两层for循环
-				goto breakLabel
+				goto breakLabel  // 对应下面代码kuai
 			}
 			fmt.Printf("%v-%v\n", i, j)
 		}
 	}
-breakLabel:
+breakLabel:   // 对映上面goto代码块
 	//
 }
 
@@ -624,7 +688,7 @@ breakLabel:
 
 
 
-#### continue
+#### 5，continue
 
 ```go
 package main
@@ -642,9 +706,30 @@ func f9() {
 
 ```
 
+#### 6，break
+
+```go
+// break语句可以结束for、switch和select的代码块。
+// !! 不止可以跳出单层循环，可以跳出全部循环，类似goto
+// break语句还可以在语句后面添加标签，表示退出某个标签对应的代码块，标签要求必须定义在对应的for、switch和 select的代码块上。 
+
+func breakDemo1() {
+BREAKDEMO1:
+	for i := 0; i < 10; i++ {
+		for j := 0; j < 10; j++ {
+			if j == 2 {
+				break BREAKDEMO1
+			}
+			fmt.Printf("%v-%v\n", i, j)
+		}
+	}
+	fmt.Println("...")
+}
+```
 
 
-### 练习题
+
+#### 7，练习题
 
 九九乘法表
 
@@ -673,36 +758,6 @@ func f10() {
 }
 
 ```
-
-
-
-
-
-
-
-
-
-## 课后作业
-
-1. 查一下计算机中如何表示浮点数。
-2. 课上老师写的代码自己动手写一下。
-3. 预习博客：数组、切片、map、函数的内容。
-
-
-
-元旦上不上课，等通知。。。
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

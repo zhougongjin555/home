@@ -757,7 +757,7 @@ class UserView(GenericViewSet):
 在drf的为我们提供好了5个用于做 增、删、改（含局部修改）、查列表、查单个数据的5个类（需结合 `GenericViewSet` 使用）。
 
 ```python
-# urls.py
+# urls.py https://www.cnblogs.com/skaarl/p/9487882.html
 
 from django.urls import path, re_path, include
 from app01 import views

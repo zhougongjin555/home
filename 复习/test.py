@@ -24,4 +24,3 @@ lis = handler(100)
 print(lis)
 
 
-

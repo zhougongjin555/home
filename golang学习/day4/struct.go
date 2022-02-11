@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"unsafe"
 )
 
 type MyInt int    //类型定义
@@ -30,14 +29,13 @@ func demo1() {
 	//fmt.Printf("name: %s, age: %d, married: %v, sex: %s", stu1.name, stu1.age, stu1.married, stu1.sex)
 
 	//匿名结构体
-	var person struct {
-		name string
-		age  int
-	}
-	person.name = "zhugeliang"
-	person.age = 22
-	fmt.Printf("\n%+v", person)
-
+	//var person struct {
+	//	name string
+	//	age  int
+	//}s
+	//person.name = "zhugeliang"
+	//person.age = 22
+	//fmt.Printf("\n%+v", person)
 	//结构体指针
 	stu2 := &Student{}
 	(*stu2).name = "关云长" // 正常思路的赋值操作
@@ -45,16 +43,17 @@ func demo1() {
 	stu2.married = true
 	stu2.sex = "male"
 	fmt.Printf("%+v\n", stu2)
-	fmt.Println(unsafe.Alignof(stu2))
-	fmt.Println(unsafe.Sizeof(stu2))
+	stu2 = new(Student) // 可以多次初始化，但是初始化后就归零值
+	fmt.Printf("%+v\n", stu2)
 
-	type Bar struct {
-		b int8  // 1
-		a int32 // 4
-		c int8  // 1
-		d int64 // 8
-	}
-
-	var b1 Bar
-	fmt.Println(unsafe.Alignof(b1), unsafe.Sizeof(b1)) // 24
+	//// 内存对齐
+	//type Bar struct {
+	//	b int8  // 1
+	//	a int32 // 4
+	//	c int8  // 1
+	//	d int64 // 8
+	//}
+	//
+	//var b1 Bar
+	//fmt.Println(unsafe.Alignof(b1), unsafe.Sizeof(b1)) // 24
 }

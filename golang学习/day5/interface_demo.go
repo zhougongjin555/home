@@ -8,7 +8,7 @@ type student struct {
 }
 
 func (s student) dream() {
-	fmt.Println("不上班")
+	fmt.Println("不上班\n")
 }
 func interface_demo() {
 	// 接口类型，只要实现了接口里面的方法，就认为实现了此类型的接口
@@ -19,4 +19,8 @@ func interface_demo() {
 	var d1 dreamer // 结构体s1里面实现了dream方法，可以赋值给接口。
 	d1 = s1
 	d1.dream()
+
+	fmt.Printf("%T\n", d1)
+	data, ok := d1.(student)
+	fmt.Println(data, ok)
 }

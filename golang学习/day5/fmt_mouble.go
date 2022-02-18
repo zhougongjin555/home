@@ -10,7 +10,7 @@ func fmt_demo() {
 
 	n1 := 12.34
 	fmt.Print(n1)
-	fmt.Printf("\n%9.for i3f\n", n1) //占9位，保留三位小数
-	fmt.Printf("%-9.3f\n", n1)       //占9位，保留三位小数， 右边填充空白
+	fmt.Printf("\n%9.3f\n", n1) //占9位，保留三位小数
+	fmt.Printf("%-9.3f\n", n1)  //占9位，保留三位小数， 右边填充空白
 	fmt.Println(n1)
 }

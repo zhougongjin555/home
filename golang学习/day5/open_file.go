@@ -1,19 +1,18 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
-	"io"
+	"io/ioutil"
 	"os"
 )
 
-func go_file_demo() {
-	file, err := os.Open("./file.txt") // 默认只读方式打开文件
+func open_file_demo() {
+	file, err := os.Open("./open_file.txt") // 默认只读方式打开文件
 	if err != nil {
 		fmt.Println("open file failed, err", err)
 		return
 	}
-	defer file.Close()
+	defer file.Close() // 配合os.Open(...) 捕获错误
 
 	/*// 1，循环读取文件
 	var content []byte
@@ -35,20 +34,28 @@ func go_file_demo() {
 	*/
 
 	// 2, bufio 包读取文件
-	reader := bufio.NewReader(file)
-	for {
-		line, err := reader.ReadString('\n') // 每次读取的截至符号，用单引号表示为字符
-		if err == io.EOF {
-			if len(line) != 0 {
-				fmt.Print(line)
-			}
-			fmt.Println("\n文件读取完成")
-			break
-		}
-		if err != nil {
-			fmt.Printf("read file error, err:", err)
-			return
-		}
-		fmt.Print(line)
+	//reader := bufio.NewReader(file)
+	//for {
+	//	line, err := reader.ReadString('\n') // 每次读取的截至符号，用单引号表示为字符
+	//	if err == io.EOF {
+	//		if len(line) != 0 {
+	//			fmt.Print(line)
+	//		}
+	//		fmt.Println("\n文件读取完成")
+	//		break
+	//	}
+	//	if err != nil {
+	//		fmt.Printf("read file error, err:", err)
+	//		return
+	//	}
+	//	fmt.Print(line)
+	//}
+
+	// ioutil 方式读取文件
+	content, err := ioutil.ReadFile("open_file.txt")
+	if err != nil {
+		fmt.Println("read file error")
+		return
 	}
+	fmt.Printf("%s", content)
 }

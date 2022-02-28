@@ -6,5 +6,6 @@ func main() {
 	//demo()
 	//demo2()
 	//demo3()
-	go_file_demo()
+	//open_file_demo()
+	write_file_demo()
 }

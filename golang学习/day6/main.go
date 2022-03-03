@@ -1,6 +1,7 @@
 package main
 
 func main() {
-	demo1()
+	//error_demo()
+	reflect_demo()
 	//demo2()
 }

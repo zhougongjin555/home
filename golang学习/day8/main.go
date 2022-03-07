@@ -3,30 +3,26 @@ package main
 import (
 	"fmt"
 	"sync"
+	"time"
 )
 
 var (
-	x  int64
 	wg sync.WaitGroup
-	m  sync.Mutex
 )
 
-// add 对全局变量x执行5000次加1操作
-func add() {
-	for i := 0; i < 5000; i++ {
-		m.Lock() // 修改x前加锁
-		x = x + 1
-		m.Unlock() // 改完解锁
-	}
-	wg.Done()
-}
-
-func lock_demo() {
-	wg.Add(2)
-
-	go add()
-	go add()
+func main() {
+	start := time.Now()
+	//lock_demo()
+	//rwlock_demo()
+	//demo1()
+	//homework()
+	//goroutine_demo1()
+	//wg_test()
+	sync_map_demo()
 
 	wg.Wait()
-	fmt.Println(x)
+	//fmt.Println(x)
+	//fmt.Println("执行到main函数")
+	cost := time.Since(start)
+	fmt.Println(cost)
 }

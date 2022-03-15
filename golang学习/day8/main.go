@@ -25,5 +25,6 @@ func main() {
 	//fmt.Println(cost)
 
 	//run(50)
-	play()
+	//play()
+	demo2()
 }

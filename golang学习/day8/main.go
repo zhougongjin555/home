@@ -1,7 +1,9 @@
 package main
 
 import (
+	"fmt"
 	"sync"
+	"time"
 )
 
 var (
@@ -9,13 +11,14 @@ var (
 )
 
 func main() {
-	//start := time.Now()
+	start := time.Now()
 	//lock_demo()
 	//rwlock_demo()
 	//demo1()
 	//homework()
 	//goroutine_demo1()
 	//wg_test()
+
 	//sync_map_demo()
 
 	//wg.Wait()
@@ -26,5 +29,12 @@ func main() {
 
 	//run(50)
 	//play()
-	demo2()
+	//demo2()
+	sync_map_demo()
+	wg.Wait()
+	//fmt.Println(x)
+	//fmt.Println("执行到main函数")
+	cost := time.Since(start)
+	fmt.Println(cost)
+
 }

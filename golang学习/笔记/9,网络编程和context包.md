@@ -321,7 +321,16 @@ ctx = context.WithValue(ctx, TraceCode("TRACE_CODE"), "12512312234")
 defer cancel()
 ```
 
+### 2.3.5 继承
 
+```go
+// 父ctx结束，子ctx也会结束
+
+比如，订单（父）总超时时长300ms， 处理订单（子1）就超时就不能更多，应该为100ms，计算数据（子2）超时100ms...
+
+```
+
+![image-20220320111006880](assets/image-20220320111006880.png)
 
 ## context推荐项目——日志收集
 

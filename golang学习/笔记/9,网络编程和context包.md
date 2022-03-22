@@ -126,6 +126,23 @@ func postfunc(w http.ResponseWriter, r *http.Request) {
 
 ```bash
 # https://www.liwenzhou.com/posts/Go/go_context/
+
+# context是干啥的
+搭配goroutine干活的
+- 通知 goroutine 退出
+- 请求的场景下携带跟请求相关的数据
+
+# 为什么要用context
+在 goroutine 外部如何通知 goroutine 退出？
+统一的规范化的通知 goroutine 退出的机制。
+
+# context
+context 本身不能实现 goroutine 的退出吗？ 不能
+我们需要在 goroutine 中手动的处理 ctx.Done() 的信号
+context 本质上是一个接口类型。
+携带了 cancelFunc 、超时时间和 ctx.Done() ,以及携带请求相关数据
+ctx.Done() 返回的是一个通道
+当调用cancelFunc 或者 超时时间到了，ctx.Done() 返回的通道能接收到值。
 ```
 
 共有的问题：如何在goroutine外部通知goroutine退出？
@@ -264,6 +281,18 @@ func TODO() Context {
 //emptyCtx默认实现了context接口的所有方法 
 ```
 
+- context.TODO()：假设你调用的一个函数必须传递一个context作为参数，但是你暂时还不知道用什么contex, 你就先给他先传个TODO占个位置 (类似于python中的pass)，保证函数正常调用。等到后续你明确了要用哪种context,你再把context.TODO替换掉。
+
+**绝对不要**把context.TODO理解成下面这种用法。
+
+>  老师，你看我的理解对么，就是还暂时用不到context的时候，先占个位置，就是ctx, cancel := context.WithCancel(context.ToDo())，然后业务代码正常传入ctx，等到准备好了，用到了，再把ctx, cancel := context.WithCancel(context.TODO())改成ctx, cancel := context.WithCancel(context.Background())，对吧
+
+context.With系列的函数必须传递明确的ctx，正确的用法是：
+
+- 如果你有别人给你的一个父ctx，那你就把父ctx传进去。
+
+- 如果你没有父ctx或者你就是顶层的ctx,那么你就传一个 context.Backgroud()
+
 ![image-20220315112623811](9,网络编程和context包.assets/image-20220315112623811.png)
 
 ##  2.3 with系列
@@ -321,7 +350,36 @@ ctx = context.WithValue(ctx, TraceCode("TRACE_CODE"), "12512312234")
 defer cancel()
 ```
 
+注意事项：
 
+1. 因为是空接口类型，存的时候任意存，取的时候要做类型断言
+
+2. 不同的包 goroutine 中都可以对context设置值，可能存在key重复了，后面的赋值操作会覆盖前面的。
+
+   1. context.WithValue(ctx, "name", "杨俊")
+   2. context.WithValue(ctx, "name", "安小枫")
+
+3. WithValue不要使用**基础数据类型**来作为key，避免被冲突。
+
+4. 要使用自定义类型来作为key
+
+   ```go
+   type CtxKey int8
+   
+   const (
+   	CtxName CtxKey = iota
+   	CtxAge  CtxKey = iota
+   	// ...
+   )
+   
+   func f1() {
+   	ctx := context.WithValue(context.Background(), CtxName, "杨俊")
+   
+   	// 根据key取值
+   	value := ctx.Value(CtxName).(string) // 对取出的值做类型断言
+   	fmt.Println(value)
+   }
+   ```
 
 ## context推荐项目——日志收集
 

@@ -348,9 +348,8 @@ ctx, cancel := context.WithTimeout(context.Background(), time.Millisecond*50)
 var TraceCode string  // 为防止键与内置的键名出现重复，可以自定义类型
 ctx = context.WithValue(ctx, TraceCode("TRACE_CODE"), "12512312234")
 defer cancel()
-```
-
 注意事项：
+```
 
 1. 因为是空接口类型，存的时候任意存，取的时候要做类型断言
 
@@ -380,8 +379,16 @@ defer cancel()
    	fmt.Println(value)
    }
    ```
+### 2.3.5 继承
 
-## context推荐项目——日志收集
+```go
+// 父ctx结束，子ctx也会结束
+
+比如，订单（父）总超时时长300ms， 处理订单（子1）就超时就不能更多，应该为100ms，计算数据（子2）超时100ms...
+
+```
+
+![image-20220320111006880](assets/image-20220320111006880.png)
 
 
 此外，还有一个我之前在培训机构讲的一个Go语言服务端开发项目实战：https://b23.tv/idab9a 自己动手写个日志收集，是练习goroutine和context的绝佳项目，可以作为进阶学习项目。

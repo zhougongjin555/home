@@ -40,4 +40,5 @@ func write_file_demo() {
 	// ioutil 写入文件
 
 	writer := ioutil.WriteFile("./write_file.txt", []byte(dat), 0666)
+	fmt.Println(writer)
 }

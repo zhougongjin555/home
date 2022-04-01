@@ -5,7 +5,7 @@ https://www.liwenzhou.com/posts/Go/error-in-goroutine/
 
 ## goroutine中的panic
 
-**panic和error的区别是什么？**
+**panic和error的区别是什么？** 
 
 error：是程序运行过程中预期可能出现的问题（错误）
 
@@ -429,7 +429,46 @@ insert into user (name, age) values((?,?),(?,?)) , ((jade,18), (lishuo,28))
 
 
 
+## 内容回顾
 
+### 处理并发的错误
+
+goroutine里面如何做错误处理
+
+#### 如何recover goroutine中可能出现的panic
+
+panic只能触发当前goroutine中的recover
+
+#### errgroup 
+
+1. sync.Waitgroup
+2. err传递机制;能够把goroutine中的错误接收到（只保留第一个err）
+3. 基于context的取消机制
+
+### database/sql
+
+1. 驱动，因为使用的是匿名导入（不直接使用这个包但是会执行这个包的init函数）
+
+   ```go
+   import _ "github.com/go-sql-driver/mysql"
+   ```
+
+2. dsn ;`sql.Open`不会真正连接数据库
+
+3. db.Close() 要在错误检查后调用；以此类推其他场景也应该如此。
+
+4. 默认自带连接池；
+
+   1. 设置最大连接数
+   2. 设置最大空闲连接数
+   3. 设置连接时间等...
+
+5. 增删改查
+
+   1. 查单行的时候一定不要忘了确保QueryRow之后调用Scan方法，否则持有的数据库链接不会被释放
+   2. 查多行的时候要 rows.Close
+
+6. 事务操作
 
 
 

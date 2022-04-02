@@ -7,7 +7,7 @@ func main() {
 	//ginDemo4()
 	//ginDemo5()
 	//ginDemo6()
-	ginDemo7()
+	//ginDemo7()
 	//redisDemo1()
 	//redisDemo2()
 	//redisDemo3()

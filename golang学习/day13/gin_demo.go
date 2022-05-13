@@ -7,6 +7,9 @@ import (
 )
 
 type Param struct {
+	// 传递指针的好处
+	// 当字段required时，可以避免由于前端传递字段零值时候被gin框架误认为未传递字段
+
 	ID      int     `json:"-"`
 	Name    *string `json:"name" binding:"required"`
 	Age     *int    `json:"age" binding:"required"`

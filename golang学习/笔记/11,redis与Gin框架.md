@@ -216,6 +216,15 @@ router.GET("/login", func(c *gin.Context) {
     })
 })
 
+
+// 对比drf中的获取方式
+def list(self, request, *args, **kwargs):
+    // 获取网址的query参数信息
+    // http://127.0.0.1:8003/test?q1=101&q2=string
+    query1 = request.query_params.get("q1")
+    query2 = request.query_params.get("q2")
+    print(query1, query2)
+    return super().list(request, *args, **kwargs)
 ```
 
 ### 2.3.1 获取body--formdata参数
@@ -235,6 +244,13 @@ router.POST("/register", func(c *gin.Context) {
         "address":  address,
     })
 })
+
+
+// 直接绑定到数组，不用一个一个绑定元素
+var todo Todo
+if err := c.ShouldBind(&todo); err != nil {
+    panic(err)
+}
 ```
 
 ### 2.3.1 获取body-json参数
@@ -271,6 +287,11 @@ router.GET("/index/static/:path/:file", func(c *gin.Context) {
         "file": file,
     })
 })
+
+
+
+// 对比django中的获取path参数
+pk = self.kwargs.get("pk")
 ```
 
 ## 2.4 gin框架参数绑定

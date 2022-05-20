@@ -12,8 +12,12 @@ func main() {
 	//RpcHttp()
 	// 基于TCP服务的rpc
 	//RpcTcp()
+	// 使用JSON协议的rpc
+	//RpcJsonDemo()
 	// 基于protoc实现自动生成文件的微服务
 	//ProtocDemo()
 	// 基于grpc实现微服务
-	GRpcDemo()
+	//GRpcDemo()
+
+	MytestGrpcDemo()
 }

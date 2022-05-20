@@ -1,0 +1,40 @@
+// proto 文件主要用来声明参数以及服务函数，并不用来保存变量值以及函数运算！！！！
+
+// 版本信息
+syntax = "proto3";
+
+option go_package="./mytest";
+
+// 路径信息
+package address;
+
+enum Gender {
+  option allow_alias = true; // 允许多个枚举字段的常量映射相同
+  SECRET = 0;
+  man = 1;
+  male = 1;
+  woman = 2;
+  female = 2;
+}
+
+message StudentRequest{
+  int32 id = 1;
+  int32 age = 2;
+  string name = 3;
+  Gender gender = 4;  // 定义枚举类型的字段
+}
+
+message StudentResponse{
+  repeated StudentRequest StudentRequestFields = 1;
+  int32 year = 2;
+}
+
+// 声明一个返回出生年份的服务
+service BirthYearService {
+  rpc BirthYear(StudentRequest) returns (StudentResponse);
+}
+
+// 声明一个返回两年后年龄的服务
+service TwoAfterYearAgeService {
+  rpc TwoAfterYearAge(StudentRequest) returns (StudentResponse);
+}

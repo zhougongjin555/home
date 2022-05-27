@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+option go_package = "./";
+
+message inputs {
+  int64 id = 1;
+  string input = 2;
+}
+
+message replies {
+  int64 id = 1;
+  string reply = 3;
+}
+
+service AiReplies {
+  // 单向流式rpc
+  //  rpc Reply(inputs) returns (stream replies);
+  //  rpc Reply(stream inputs) returns (replies);
+
+  // 双向流式rpc
+  rpc Reply(stream inputs) returns (stream replies);
+}

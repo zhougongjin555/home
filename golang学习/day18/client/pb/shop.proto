@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+option go_package = "./";
+
+enum Fruit {
+  APPLE = 0;
+  ORANGE = 1;
+  BANANA = 2;
+  WATERMELON = 3;
+}
+
+message Req {
+  Fruit fruit = 1;
+}
+
+message Res {
+  Fruit fruit = 1;
+  int64 price = 2;
+}
+
+service GetPriceService {
+  rpc GetPrice(Req) returns (Res);
+}

@@ -1,42 +1,30 @@
 package main
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
-	"net/http"
+	"log"
 )
-
-type Param struct {
-	// 传递指针的好处
-	// 当字段required时，可以避免由于前端传递字段零值时候被gin框架误认为未传递字段
-
-	ID      int     `json:"-"`
-	Name    *string `json:"name" binding:"required"`
-	Age     *int    `json:"age" binding:"required"`
-	Married *bool   `json:"married" binding:"required"`
-}
 
 // ApiModel 把我数据库里面可以对外展示的字段放这里
 type ApiModel struct {
 }
 
-// kind
-
-func testHandler(c *gin.Context) {
-	// 参数获取与参数校验
-	var p Param
-	if err := c.ShouldBind(&p); err != nil {
-		fmt.Println(err)
-		c.JSON(http.StatusOK, "参数错误:"+err.Error())
+func GinServer() {
+	if err := MysqlInit(); err != nil {
 		return
 	}
-	// 获取到有效的参数
-	fmt.Printf("p:%#v\n", p)
-
-	var p2 Param
-	age := 18
-	p2.Age = &age
-
-	// 返回响应
-	c.JSON(http.StatusOK, p)
+	/*
+		1, 初始化gin框架
+		2, 绑定url与对应视图函数
+		3, 启动gin框架
+	*/
+	r := gin.Default()
+	r.POST("/books", createBookHandler)
+	r.GET("/books", getBookHandler)
+	r.PUT("/books", updateBookHandler)
+	r.DELETE("/books", deleteBookHandler)
+	err := r.Run(":9110")
+	if err != nil {
+		log.Fatalf("gin start error: %s", err)
+	}
 }

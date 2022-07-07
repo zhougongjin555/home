@@ -52,10 +52,14 @@ func f1() {
 	var slice12 = []int{1, 2, 3}
 	fmt.Printf("%+v,%p,%p %p\n", slice12, &slice12[0], &slice12[1], &slice12[2])
 
-	/*var a = make([]string, 5, 10)
+	var a = make([]string, 5, 10)
+	var b []int
+	fmt.Println(a)
 	for i := 0; i < 10; i++ {
+		b = append(b, i)
 		a = append(a, fmt.Sprintf("%v", i))
 	}
-	fmt.Println(a, len(a), cap(a))*/
+	fmt.Println(a, len(a), cap(a))
+	fmt.Println(b, len(b), cap(b))
 
 }

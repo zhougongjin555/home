@@ -22,7 +22,7 @@ func main() {
 	//f1()
 	//fmt.Println(name)
 
-	//f4()
+	f4()
 
-	pointer()
+	//pointer()
 }

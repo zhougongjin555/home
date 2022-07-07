@@ -53,6 +53,6 @@ func main() {
 		for index, val := range arr6 {
 			fmt.Println(index, val)
 		}*/
-	f1()
-	//f2()
+	//f1()
+	f2()
 }

@@ -143,33 +143,26 @@ def topK(li, k):
 
 
 # 6，归并排序      O(nlog(n))
-def merge(li, low, mid, high):
-    i = low
-    j = mid + 1
-    ltmp = []
-    while i <= mid and j <= high:
-        if li[i] < li[j]:
-            ltmp.append(li[i])
-            i += 1
+def merge(left, right):
+    merged = []
+    # 擂台比武，谁小谁进
+    while left and right:
+        if left[0] <= right[0]:
+            merged.append(left.pop(0)
         else:
-            ltmp.append(li[j])
-            j += 1
-    while i <= mid:
-        ltmp.append(li[i])
-        i += 1
-    while j <= high:
-        ltmp.append(li[j])
-        j += 1
-    li[low: high + 1] = ltmp
-
-
-def merge_sort(li, low, high):
-    if low < high:
-        mid = (low + high) // 2
-        merge_sort(li, low, mid)
-        merge_sort(li, mid + 1, high)
-        merge(li, low, mid, high)
-    print(li)
+            merged.append(right.pop(0))
+    # 添加剩余的元素（eg: left 所有大于 right 最大值的元素）
+    merged.append(right if right else left)
+    return merged
+            
+def merge_sort(li):
+    if len(li) <= 1:
+        return li
+    mid = len(li) // 2
+    left = merge_sort(li[:mid])
+    right = merge_sort(li[mid:])
+    merge(left, right)
+    
 
 
 ##########################################################

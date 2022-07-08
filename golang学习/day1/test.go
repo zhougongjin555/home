@@ -53,17 +53,17 @@ func main() {
 	//fmt.Println(age, length, name, ismale)
 	//fmt.Println(reflect.TypeOf(age), reflect.TypeOf(length), reflect.TypeOf(name), reflect.TypeOf(ismale))
 	//
-	//var text string = `hello周公瑾`
-	//count := 0
-	//fmt.Println('z', 'Z')
-	//for _, r := range text { //rune
-	//
-	//	fmt.Printf("%v(%c) ", r, r)
-	//	if r > 122 {
-	//		count += 1
-	//	}
-	//}
-	//fmt.Printf("\n中文长度：%d", count)
+	var text string = `hello周公瑾`
+	count := 0
+	fmt.Println('z', 'Z')
+	for _, r := range text { //rune
+
+		fmt.Printf("%v(%c) ", r, r)
+		if r > 122 {
+			count += 1
+		}
+	}
+	fmt.Printf("\n中文长度：%d, 总长度：%d", count, len(text))
 
 	//for i := 1; i < 10; i++ {
 	//	for j := 1; j <= i; j++ {
@@ -72,7 +72,7 @@ func main() {
 	//	fmt.Println("\n")
 	//}
 
-	fmt.Printf("姓名是：%s，年龄是：%d", name, newAge)
+	//fmt.Printf("姓名是：%s，年龄是：%d", name, newAge)
 
 	// breakDemo1()
 

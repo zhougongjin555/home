@@ -1,6 +1,8 @@
 package main
 
 func main() {
-	GinServer()
+	InitMyLogger()
+	ViperDemo()
+	//GinServer()
 	//sliceTest()
 }

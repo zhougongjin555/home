@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"log"
+	"go.uber.org/zap"
 )
 
 type Book struct {
@@ -19,7 +19,8 @@ func createBookHandler(c *gin.Context) {
 	// 接收前端返回参数--放到数据库
 	var book Book
 	if err := c.ShouldBind(&book); err != nil {
-		fmt.Println("need book params!!", err)
+		logger.Error("need book params!!",
+			zap.Error(err))
 		c.JSON(200, gin.H{
 			"code": 999,
 			"msg":  "your params is not completed",
@@ -31,7 +32,7 @@ func createBookHandler(c *gin.Context) {
 	sqlStr := "insert into book (title, author, publisher) values (:title, :author, :publisher)"
 	ret, err := dbx.NamedExec(sqlStr, book)
 	if err != nil {
-		fmt.Println("insert sql error!!", err)
+		logger.Error("insert sql error!!", zap.Error(err))
 	}
 	id, _ := ret.LastInsertId()
 	n, _ := ret.RowsAffected()
@@ -44,6 +45,7 @@ func createBookHandler(c *gin.Context) {
 		"id":     id,
 		"affect": n,
 	})
+	logger.Info("create a new book!!")
 }
 
 func deleteBookHandler(c *gin.Context) {
@@ -60,10 +62,9 @@ func getBookHandler(c *gin.Context) {
 	sqlx := "select title, author, publisher from book;"
 	rows, err := dbx.NamedQuery(sqlx, book)
 	if err != nil {
-		log.Fatalf("get sqlx error: %s", err)
+		logger.Error("get sqlx error", zap.Error(err))
 	}
 	defer rows.Close()
-	fmt.Println("rows", rows)
 
 	// 遍历取出数据
 	for rows.Next() {
@@ -77,4 +78,6 @@ func getBookHandler(c *gin.Context) {
 		"msg":  "success",
 		"book": books,
 	})
+	logger.Info("someone get books!!")
+	//sugerlogger.Infof("sugerlogger: someone get books!!!")
 }

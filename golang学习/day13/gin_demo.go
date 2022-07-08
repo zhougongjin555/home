@@ -10,6 +10,8 @@ type ApiModel struct {
 }
 
 func GinServer() {
+	ViperDemo()
+	InitMyLogger()
 	if err := MysqlInit(); err != nil {
 		return
 	}
